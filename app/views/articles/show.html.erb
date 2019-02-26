@@ -1,0 +1,28 @@
+<div class="main articles-show">
+  <div class="container">
+    <div class="article-title"><%= @article.title %></div>
+    <div class="article-content"><%= @article.content %></div>
+    <div class="comments-heading">コメント</div>
+    <% @comments.each do |comment| %>
+      <div class="comments-item">
+        <%= comment.content %>
+      </div>
+    <% end %>
+
+    <div class="form-heading">コメント作成</div>
+    <div class="form comments-form">
+      <div class="form-body">
+        <% @comment.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_tag(create_comment_path(@article.room_id, @article.id)) do %>
+          <textarea name="content"><%= @content %></textarea>
+          <input type="submit" value="作成">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

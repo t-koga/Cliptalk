@@ -1,0 +1,38 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        id: ID
+        created_at: 登録日時
+        updated_at: 更新日時
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+      room: 部屋
+    attributes:
+      room:
+        id: ID
+        created_at: 登録日時
+        updated_at: 更新日時
+        name: 部屋名
+      article: クリップ
+    attributes:
+      article:
+        id: ID
+        created_at: 登録日時
+        updated_at: 更新日時
+        room_id: 部屋ID
+        user_id: ユーザーID
+        title: タイトル
+        content: 内容
+      comment: コメント
+    attributes:
+      comment:
+        id: ID
+        created_at: 登録日時
+        updated_at: 更新日時
+        article_id: クリップID
+        user_id: ユーザーID
+        content: コメント

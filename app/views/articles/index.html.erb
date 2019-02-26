@@ -1,0 +1,14 @@
+<div class="main articles-index">
+  <div class="container">
+    <div class="room-name"><%= @room.name %></div>
+    <div class="article-create-link">
+      <%= link_to("記事作成", new_article_path) %>
+    </div>
+    <% @articles.each do |article| %>
+      <div class="articles-index-item">
+        <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

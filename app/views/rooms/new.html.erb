@@ -1,0 +1,21 @@
+<div class="main rooms-new">
+  <div class="container">
+    <div class="form-heading">部屋作成</div>
+    <div class="form rooms-form">
+      <div class="form-body">
+        <% @room.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_tag(create_room_path) do %>
+          <p>部屋名</p>
+          <input name="name" value="<%= @name %>">
+          <input type="submit" value="作成">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,13 @@
+<div class="main rooms-index">
+  <div class="container">
+    <div class="room-create-link">
+      <%= link_to("部屋作成", new_room_path) %>
+    </div>
+    <% @rooms.each do |room| %>
+      <div class="rooms-index-item">
+        <%= link_to(room.name, articles_path(room.id)) %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
