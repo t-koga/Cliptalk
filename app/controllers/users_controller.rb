@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, {only: [:logout]}
+  before_action :authenticate_user, {only: [:logout, :show]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
+  before_action :ensure_correct_user, {only: [:edit, :update]}
 
   def new
     @user = User.new
@@ -11,6 +12,7 @@ class UsersController < ApplicationController
       name: params[:name],
       email: params[:email],
       password: params[:password])
+      @user.avatar.attach(io: File.open(Rails.root.join("storage/default_image.jpg")), filename: "default_image.jpg", content_type: "image/jpg")
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "ユーザー登録が完了しました"
@@ -20,6 +22,30 @@ class UsersController < ApplicationController
       @email = params[:email]
       @password = params[:password]
       render("users/new")
+    end
+  end
+
+  def show
+    @user = User.find_by(id: params[:user_id])
+  end
+
+  def edit
+    @user = User.find_by(id: @current_user.id)
+  end
+
+  def update
+    @user = User.find_by(id: @current_user.id)
+    @user.name = params[:name]
+    @user.email = params[:email]
+    @user.password = params[:password]
+    if params[:avatar]
+      @user.avatar.attach(params.require(:avatar))
+    end
+    if @user.save
+      flash[:notice] = "ユーザー情報を更新しました"
+      redirect_to(show_user_path(@current_user.id))
+    else
+      render("users/edit")
     end
   end
 
@@ -44,5 +70,13 @@ class UsersController < ApplicationController
     session[:user_id] = nil
     flash[:notice] = "ログアウトしました"
     redirect_to(top_path)
+  end
+end
+
+# 他ユーザーの編集を制限
+def ensure_correct_user
+  unless @current_user.id == params[:user_id].to_i
+    flash[:notice] = "他のユーザーの編集はできません"
+    redirect_to(show_user_path(@current_user.id))
   end
 end

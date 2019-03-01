@@ -7,7 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 5.times do |i|
-  User.create(name: "name#{i}", email: "name#{i}@mail", password: "name#{i}")
+  user = User.create(name: "name#{i}", email: "name#{i}@mail", password: "name#{i}")
+  user.avatar.attach(io: File.open(Rails.root.join("storage/default_image.jpg")), filename: "default_image.jpg", content_type: "image/jpg")
 end
 
 5.times do |i|
