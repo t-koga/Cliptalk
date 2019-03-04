@@ -11,8 +11,12 @@ Rails.application.routes.draw do
   post "/logout" => "users#logout", as: "logout"
 
   get "/rooms" => "rooms#index", as: "rooms"
-  get "/rooms/new" => "rooms#new", as: "new_room"
-  post "/rooms" => "rooms#create", as: "create_room"
+  get "/rooms/:room_id/new" => "rooms#new", as: "new_room"
+  post "/rooms/:room_id/new" => "rooms#create", as: "create_room"
+  get "/rooms/:room_id/edit" => "rooms#edit", as: "edit_room"
+  post "/rooms/:room_id/edit" => "rooms#update", as: "update_room"
+  get "/rooms/:room_id/edit/manager" => "rooms#manager_edit", as: "edit_room_manager"
+  post "/rooms/:room_id/edit/manager" => "rooms#manager_change", as: "change_room_manager"
 
   get "/rooms/:room_id/articles" => "articles#index", as: "articles"
   get "/rooms/:room_id/articles/new" => "articles#new", as: "new_article"

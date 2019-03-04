@@ -12,7 +12,10 @@ class UsersController < ApplicationController
       name: params[:name],
       email: params[:email],
       password: params[:password])
-      @user.avatar.attach(io: File.open(Rails.root.join("storage/default_image.jpg")), filename: "default_image.jpg", content_type: "image/jpg")
+      @user.avatar.attach(
+        io: File.open(Rails.root.join("storage/default_image.jpg")),
+        filename: "default_image.jpg",
+        content_type: "image/jpg")
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "ユーザー登録が完了しました"
@@ -71,12 +74,13 @@ class UsersController < ApplicationController
     flash[:notice] = "ログアウトしました"
     redirect_to(top_path)
   end
-end
 
-# 他ユーザーの編集を制限
-def ensure_correct_user
-  unless @current_user.id == params[:user_id].to_i
-    flash[:notice] = "他のユーザーの編集はできません"
-    redirect_to(show_user_path(@current_user.id))
+  # 他ユーザーの編集を制限
+  def ensure_correct_user
+    unless @current_user.id == params[:user_id].to_i
+      flash[:notice] = "他のユーザーの編集はできません"
+      redirect_to(show_user_path(@current_user.id))
+    end
   end
+
 end

@@ -1,5 +1,11 @@
 <div class="main articles-show">
   <div class="container">
+    <div class="article-room">
+      <% if @room.icon.attached? %>
+        <%= image_tag @room.icon %>
+      <% end %>
+      <%= link_to(@room.name, articles_path(@room.id)) %>
+    </div>
     <div class="article-title"><%= @article.title %></div>
     <div class="article-content"><%= @article.content %></div>
     <div class="comments-heading">コメント</div>

@@ -1,14 +1,48 @@
 <div class="main articles-index">
   <div class="container">
-    <div class="room-name"><%= @room.name %></div>
+    <div class="room-name">
+      <% if @room.super_room_id != 0 %>
+        <% if @super_room.icon.attached? %>
+          <%= image_tag @super_room.icon %>
+        <% end %>
+        <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
+      <% end %>
+
+      <% if @room.icon.attached? %>
+        <%= image_tag @room.icon %>
+      <% end %>
+      <%= @room.name %>
+    </div>
+    <div class="room-manager">
+      部屋管理: <%= link_to(@room.user.name, show_user_path(@room.user.id)) %>
+      <span class="room-manager-link"> <%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></span>
+    </div>
+
+    <div class="ceildroom-create-link">
+      <%= link_to("子部屋を作る", new_room_path) %>
+    </div>
     <div class="article-create-link">
       <%= link_to("記事作成", new_article_path) %>
     </div>
-    <% @articles.each do |article| %>
-      <div class="articles-index-item">
-        <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
-      </div>
-    <% end %>
+
+    <div class="articles-index-list">
+      <% @articles.each do |article| %>
+        <div class="articles-index-item">
+          <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
+        </div>
+      <% end %>
+    </div>
+    <div class="rooms-index-list">
+      <% @rooms.each do |room| %>
+        <div class="rooms-index-item">
+          <% if room.icon.attached? %>
+            <%= image_tag room.icon %>
+          <% end %>
+          <%= link_to(room.name, articles_path(room.id)) %>
+        </div>
+      <% end %>
+    </div>
+
   </div>
 </div>
 

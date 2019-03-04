@@ -1,0 +1,28 @@
+<div class="main rooms-manager-change">
+  <div class="container">
+    <div class="form-heading">管理者の変更</div>
+    <div class="form room-edit-form">
+      <div class="form-body">
+        <% @room.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_with(url: update_room_path(@room.id), local: true) do |form| %>
+          <p>アイコン</p>
+          <%= image_tag @room.icon %>
+          <%= form.file_field :icon %>
+          <p>名前</p>
+          <%= form.text_field :name, value: @room.name %>
+          <%= form.submit value: "編集" %>
+        <% end %>
+
+        <div class="room-manager-change-link">
+          <%= link_to("管理者の変更", manager_change_room_path(@room.id)) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

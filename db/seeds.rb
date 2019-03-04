@@ -12,5 +12,6 @@
 end
 
 5.times do |i|
-  Room.create(name: "room#{i}")
+  room = Room.create(name: "room#{i}", user_id: "#{i+1}", super_room_id: 0)
+  room.icon.attach(io: File.open(Rails.root.join("storage/default_room_image.jpg")), filename: "default_room_image.jpg", content_type: "image/jpg")
 end

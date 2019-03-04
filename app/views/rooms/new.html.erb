@@ -1,6 +1,14 @@
 <div class="main rooms-new">
   <div class="container">
-    <div class="form-heading">部屋作成</div>
+    <div class="form-heading">
+      <% if params[:room_id] != "0" %>
+        <% if @super_room.icon.attached? %>
+          <%= image_tag @super_room.icon %>
+        <% end %>
+        <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
+      <% end %>
+      部屋作成
+    </div>
     <div class="form rooms-form">
       <div class="form-body">
         <% @room.errors.full_messages.each do |message| %>
