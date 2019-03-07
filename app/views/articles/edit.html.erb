@@ -1,0 +1,27 @@
+<div class="main articles-edit">
+  <div class="container">
+    <div class="form-heading">
+      <%= link_to(@article.title, show_article_path(params[:room_id], params[:article_id])) %> > 
+      クリップ編集
+    </div>
+    <div class="form article-edit-form">
+      <div class="form-body">
+        <% @article.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_with(url: update_article_path(params[:room_id], params[:article_id]), local: true) do |form| %>
+          <p>タイトル</p>
+          <%= form.text_field :title, value: @article.title %>
+          <p>内容</p>
+          <%= form.text_area :content, value: @article.content %>
+          <%= form.submit value: "編集" %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -30,6 +30,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:user_id])
+    @rooms = Room.where(user_id: params[:user_id]).page(params[:room_page])
+    @articles = Article.where(user_id: params[:user_id]).page(params[:article_page])
   end
 
   def edit

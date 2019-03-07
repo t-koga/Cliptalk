@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   get "/rooms/:room_id/articles/new" => "articles#new", as: "new_article"
   post "/rooms/:room_id/articles/new" => "articles#create", as: "create_article"
   get "/rooms/:room_id/articles/:article_id" => "articles#show", as: "show_article"
+  post "/rooms/:room_id/articles/:article_id/status" => "articles#status", as: "status_article"
+  get "/rooms/:room_id/articles/:article_id/edit" => "articles#edit", as: "edit_article"
+  post "/rooms/:room_id/articles/:article_id/edit" => "articles#update", as: "update_article"
 
   post "/rooms/:room_id/articles/:article_id/comments" => "comments#create", as: "create_comment"
 

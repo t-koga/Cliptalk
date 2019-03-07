@@ -22,16 +22,21 @@
       <%= link_to("子部屋を作る", new_room_path) %>
     </div>
     <div class="article-create-link">
-      <%= link_to("記事作成", new_article_path) %>
+      <%= link_to("クリップ作成", new_article_path) %>
     </div>
 
     <div class="articles-index-list">
       <% @articles.each do |article| %>
         <div class="articles-index-item">
           <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
+          <%= article.comment_count %>トーク
+          <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+          <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
         </div>
       <% end %>
     </div>
+    <%= paginate @articles, :param_name => 'article_page' %>
     <div class="rooms-index-list">
       <% @rooms.each do |room| %>
         <div class="rooms-index-item">
@@ -42,6 +47,7 @@
         </div>
       <% end %>
     </div>
+    <%= paginate @rooms, :param_name => 'room_page' %>
 
   </div>
 </div>

@@ -6,16 +6,37 @@
       <% end %>
       <%= link_to(@room.name, articles_path(@room.id)) %>
     </div>
-    <div class="article-title"><%= @article.title %></div>
-    <div class="article-content"><%= @article.content %></div>
-    <div class="comments-heading">コメント</div>
-    <% @comments.each do |comment| %>
+
+    <div class="article-body">
+      <div class="article-title"><%= @article.title %></div>
+      <div class="article-status">
+        <span class="article-progress" style="color:red"><%= "進行中" if @article.is_solved == false %></span>
+        <span class="article-solved" style="color:green"><%= "完了" if @article.is_solved == true %></span>
+        <%= link_to("変更", status_article_path(params[:room_id], params[:article_id]), method: :post) if @article.user.id == @current_user.id %>
+      </div>
+      <div class="article-manager">
+        作成者: <%= link_to(@article.user.name, show_user_path(@room.user.id)) %>
+        <span class="article-manager-link"> <%= link_to("クリップ編集", edit_article_path(params[:room_id], params[:article_id])) if @article.user.id == @current_user.id %></span>
+      </div>
+      <div class="article-content"><%= @article.content %></div>
+      <div class="article-update-time"><%= @article.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+    </div>
+
+    <hr>
+    <div class="comments-heading">トーク</div>
+    <% @comments.each_with_index do |comment, i| %>
       <div class="comments-item">
+        <%= "#{i+1}." %>
+        <% if comment.user.avatar.attached? %>
+          <%= image_tag comment.user.avatar %>
+        <% end %>
+        <%= link_to(comment.user.name, show_user_path(comment.user.id)) %>
         <%= comment.content %>
+        <%= comment.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
       </div>
     <% end %>
 
-    <div class="form-heading">コメント作成</div>
+    <div class="form-heading">トーク作成</div>
     <div class="form comments-form">
       <div class="form-body">
         <% @comment.errors.full_messages.each do |message| %>

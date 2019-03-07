@@ -8,6 +8,30 @@
     <% if @user.id == @current_user.id %>
       <div class="user-edit-link"><%= link_to("編集", edit_user_path(@current_user.id)) %></div>
     <% end %>
+
+    <div class="articles-index-list">
+      <% @articles.each do |article| %>
+        <div class="articles-index-item">
+          <%= link_to(article.title, show_article_path(article.room_id, article.id)) %>
+          <%= article.comment_count %>トーク
+          <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+          <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
+        </div>
+      <% end %>
+    </div>
+    <%= paginate @articles, :param_name => 'article_page' %>
+    <div class="rooms-index-list">
+      <% @rooms.each do |room| %>
+        <div class="rooms-index-item">
+          <% if room.icon.attached? %>
+            <%= image_tag room.icon %>
+          <% end %>
+          <%= link_to(room.name, articles_path(room.id)) %>
+        </div>
+      <% end %>
+    </div>
+    <%= paginate @rooms, :param_name => 'room_page' %>
   </div>
 </div>
 
