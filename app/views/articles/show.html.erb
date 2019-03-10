@@ -2,7 +2,7 @@
   <div class="container">
     <div class="article-room">
       <% if @room.icon.attached? %>
-        <%= image_tag @room.icon %>
+        <%= image_tag @room.thumbnail_small %>
       <% end %>
       <%= link_to(@room.name, articles_path(@room.id)) %>
     </div>
@@ -28,7 +28,7 @@
       <div class="comments-item">
         <%= "#{i+1}." %>
         <% if comment.user.avatar.attached? %>
-          <%= image_tag comment.user.avatar %>
+          <%= image_tag comment.user.thumbnail_small %>
         <% end %>
         <%= link_to(comment.user.name, show_user_path(comment.user.id)) %>
         <%= comment.content %>

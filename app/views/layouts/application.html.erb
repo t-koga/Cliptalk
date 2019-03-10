@@ -19,7 +19,7 @@
           <% if @current_user %>
             <li>
               <% if @current_user.avatar.attached? %>
-                <%= image_tag @current_user.avatar %>
+                <%= image_tag @current_user.thumbnail_small %>
               <% end %>
               <%= link_to(@current_user.name, show_user_path(@current_user.id)) %>
             </li>
@@ -28,7 +28,7 @@
             </li>
             <li>
               <%= link_to("ログアウト", logout_path, {method: :post}) %>
-            </li>        
+            </li>
           <% else %>
             <li>
               <%= link_to("新規登録", new_user_path) %>

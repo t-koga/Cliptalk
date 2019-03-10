@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     @user.email = params[:email]
     @user.password = params[:password]
     if params[:avatar]
-      @user.avatar.attach(params.require(:avatar))
+      @user.avatar = params[:avatar]
     end
     if @user.save
       flash[:notice] = "ユーザー情報を更新しました"

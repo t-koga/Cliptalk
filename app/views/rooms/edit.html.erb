@@ -2,7 +2,7 @@
   <div class="container">
     <div class="form-heading">
       <% if @room.icon.attached? %>
-        <%= image_tag @room.icon %>
+        <%= image_tag @room.thumbnail_small %>
       <% end %>
       <%= link_to(@room.name, articles_path(@room.id)) %> > 
       部屋編集
@@ -16,9 +16,9 @@
         <% end %>
 
         <%= form_with(url: update_room_path(@room.id), local: true) do |form| %>
-          <p>アイコン</p>
-          <%= image_tag @room.icon %>
-          <%= form.file_field :icon %>
+          <p>アイコン<span> ※ ファイル形式:(jpg, jpeg, png, gif) サイズ制限:100KB</span></p>
+          <%= image_tag @room.thumbnail_large %>
+          <%= form.file_field :icon, accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "iconChange(this)" %>
           <p>名前</p>
           <%= form.text_field :name, value: @room.name %>
           <%= form.submit value: "編集" %>

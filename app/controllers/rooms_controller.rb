@@ -42,7 +42,7 @@ class RoomsController < ApplicationController
     @room = Room.find_by(id: params[:room_id])
     @room.name = params[:name]
     if params[:icon]
-      @room.icon.attach(params.require(:icon))
+      @room.icon = params[:icon]
     end
     if @room.save
       flash[:notice] = "部屋情報を更新しました"

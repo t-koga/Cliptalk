@@ -8,7 +8,7 @@
       <% @rooms.each do |room| %>
         <div class="rooms-index-item">
           <% if room.icon.attached? %>
-            <%= image_tag room.icon %>
+            <%= image_tag room.thumbnail_small %>
           <% end %>
           <%= link_to(room.name, articles_path(room.id)) %>
         </div>

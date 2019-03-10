@@ -3,7 +3,7 @@
     <div class="form-heading">
       <% if params[:room_id] != "0" %>
         <% if @super_room.icon.attached? %>
-          <%= image_tag @super_room.icon %>
+          <%= image_tag @super_room.thumbnail_small %>
         <% end %>
         <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
       <% end %>

@@ -10,9 +10,9 @@
         <% end %>
 
         <%= form_with(url: update_user_path(@current_user.id), local: true) do |form| %>
-          <p>アイコン</p>
-          <%= image_tag @current_user.avatar %>
-          <%= form.file_field :avatar %>
+          <p>アイコン<span> ※ ファイル形式:(jpg, jpeg, png, gif) サイズ制限:100KB</span></p>
+          <%= image_tag @current_user.thumbnail_large %>
+          <%= form.file_field :avatar, accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "avatarChange(this)" %>
           <p>名前</p>
           <%= form.text_field :name, value: @user.name %>
           <p>メールアドレス</p>

@@ -3,13 +3,13 @@
     <div class="room-name">
       <% if @room.super_room_id != 0 %>
         <% if @super_room.icon.attached? %>
-          <%= image_tag @super_room.icon %>
+          <%= image_tag @super_room.thumbnail_small %>
         <% end %>
         <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
       <% end %>
 
       <% if @room.icon.attached? %>
-        <%= image_tag @room.icon %>
+        <%= image_tag @room.thumbnail_small %>
       <% end %>
       <%= @room.name %>
     </div>
@@ -37,11 +37,12 @@
       <% end %>
     </div>
     <%= paginate @articles, :param_name => 'article_page' %>
+
     <div class="rooms-index-list">
       <% @rooms.each do |room| %>
         <div class="rooms-index-item">
           <% if room.icon.attached? %>
-            <%= image_tag room.icon %>
+            <%= image_tag room.thumbnail_small %>
           <% end %>
           <%= link_to(room.name, articles_path(room.id)) %>
         </div>
