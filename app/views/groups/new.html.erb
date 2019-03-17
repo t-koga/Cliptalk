@@ -1,0 +1,27 @@
+<div class="main groups-new">
+  <div class="container">
+    <div class="form-heading">新規グループ登録</div>
+    <div class="form groups-form">
+      <div class="form-body">
+        <% @group.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_with(url: create_group_path, local: true) do |form| %>
+          <p>グループURL<span> ※[アルファベット,数字,ハイフン,アンダーバー]のみ使用できます</span></p>
+          <%= request.host_with_port+"/groups/" %> <%= form.text_field :url, value: @url %>
+          <p>グループ名</p>
+          <%= form.text_field :name, value: @name %>
+          <p>メールアドレス<span> ※架空のアドレスでも可 (例:○○@mail)</span></p>
+          <%= form.text_field :email, value: @email %>
+          <p>パスワード</p>
+          <%= form.password_field :password %>
+          <%= form.submit value: "新規登録" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

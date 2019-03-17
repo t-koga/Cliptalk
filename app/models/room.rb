@@ -1,14 +1,15 @@
 class Room < ApplicationRecord
+  has_many :articles
+  belongs_to :user
+
   has_one_attached :icon
 
   validates :name, {presence: true, uniqueness: {scope: :super_room_id}}
   validates :user_id, {presence: true}
   validates :super_room_id, {presence: true}
+  validates :group_id, {presence: true}
+  validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_icon
-
-  def user
-    return User.find_by(id: self.user_id)
-  end
 
   def thumbnail_small
     return self.icon.variant(resize: "50x50").processed

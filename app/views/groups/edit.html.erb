@@ -1,0 +1,27 @@
+<div class="main groups-edit">
+  <div class="container">
+    <div class="form-heading">グループ編集</div>
+    <div class="form group-edit-form">
+      <div class="form-body">
+        <% @group.errors.full_messages.each do |message| %>
+          <div class="form-error">
+            <%= message %>
+          </div>
+        <% end %>
+
+        <%= form_with(url: update_group_path(@current_group.id), local: true) do |form| %>
+          <p>グループURL<span> ※[アルファベット,数字,ハイフン,アンダーバー]のみ使用できます</span></p>
+          <%= request.host_with_port+"/groups/" %> <%= form.text_field :url, value: @group.url %>
+          <p>グループ名</p>
+          <%= form.text_field :name, value: @group.name %>
+          <p>メールアドレス</p>
+          <%= form.text_field :email, value: @group.email %>
+          <p>パスワード<span> ※未入力の場合は更新されません</span></p>
+          <%= form.password_field :password %>
+          <%= form.submit value: "編集" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

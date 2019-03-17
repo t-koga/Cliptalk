@@ -1,0 +1,17 @@
+<div class="main users-index">
+  <div class="container">
+
+    <div class="users-index-list">
+      <% @users.each do |user| %>
+        <div class="users-index-item">
+          <% if user.avatar.attached? %>
+            <%= image_tag user.thumbnail_small %>
+          <% end %>
+          <%= link_to(user.name, show_user_path(user.id)) %>
+        </div>
+      <% end %>
+    </div>
+    <%= paginate @users %>
+  </div>
+</div>
+

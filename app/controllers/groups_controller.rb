@@ -1,0 +1,81 @@
+class GroupsController < ApplicationController
+  def new
+    @group = Group.new
+  end
+
+  def create
+    @group = Group.new(
+      url: params[:url],
+      name: params[:name],
+      email: params[:email],
+      password: params[:password])
+    if @group.save
+      flash[:notice] = "グループ登録が完了しました"
+      redirect_to(top_group_path(@group.url))
+    else
+      @url = params[:url]
+      @name = params[:name]
+      @email = params[:email]
+      @password = params[:password]
+      render("groups/new")
+    end
+  end
+
+  def index
+    @group = Group.find_by(url: params[:group_url])
+  end
+
+  def login_form
+  end
+
+  def login
+    @group = Group.find_by(email: params[:email], url: params[:group_url])
+    if @group && @group.authenticate(params[:password])
+      if GroupUser.where(group_id: @group.id).find_by(user_id: @current_user.id)
+        session[:manager_id] = @current_user.id
+        flash[:notice] = "管理者としてログインしました"
+        redirect_to(rooms_path)
+      else
+        @error_message = "他のグループにはログインできません"
+        @email = params[:email]
+        @password = params[:password]
+        render("groups/login_form")
+      end
+    else
+      @error_message = "メールアドレスまたはパスワードが間違っています"
+      @email = params[:email]
+      @password = params[:password]
+      render("groups/login_form")
+    end
+  end
+
+  def garbage
+    @users = User.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:user_page])
+    @rooms = Room.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:room_page])
+    @articles = Article.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:article_page])
+  end
+
+  def edit
+    @group = Group.find_by(id: @current_group.id)
+  end
+
+  def update
+    @group = Group.find_by(id: @current_group.id)
+    @group.url = params[:url]
+    @group.name = params[:name]
+    @group.email = params[:email]
+    @group.password = params[:password]
+    if @group.save
+      flash[:notice] = "グループ情報を更新しました"
+      redirect_to(rooms_path)
+    else
+      render("groups/edit")
+    end
+  end
+
+  def logout
+    session[:manager_id] = nil
+    flash[:notice] = "管理者をログアウトしました"
+    redirect_to(rooms_path)
+  end
+end

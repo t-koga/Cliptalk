@@ -1,0 +1,23 @@
+<div class="main groups-login">
+  <div class="container">
+    <div class="form-heading">管理者ログイン</div>
+    <div class="form groups-form">
+      <div class="form-body">
+        <% if @error_message %>
+          <div class="form-error">
+            <%= @error_message %>
+          </div>
+        <% end %>
+        
+        <%= form_tag(manager_login_path) do %>
+          <p>メールアドレス</p>
+          <input name="email" value="<%= @email %>">
+          <p>パスワード</p>
+          <input type="password" name="password" value="<%= @password %>">
+          <input type="submit" value="ログイン">
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

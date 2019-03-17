@@ -1,9 +1,17 @@
 class User < ApplicationRecord
+  has_many :group_users
+  has_many :groups, through: :group_users
+  has_many :rooms
+  has_many :articles
+  has_many :comments
+
   has_secure_password
   has_one_attached :avatar
 
   validates :name, {presence: true}
   validates :email, {presence: true, uniqueness: true}
+  validates :group_id, {presence: true}
+  validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_avatar
 
 

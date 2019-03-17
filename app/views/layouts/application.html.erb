@@ -13,7 +13,13 @@
     <header>
       <div class="container">
         <div class="header-title">
-          <%= link_to("Project クリップトーク", top_path) %>
+          <% if @current_group %>
+            <%= link_to(@current_group.name, top_group_path(@current_group.url)) %>
+          <% elsif params[:group_url] %>
+            <%= link_to(@group.name, top_group_path) %>
+          <% else %>
+            <%= link_to("Project クリップトーク", top_path) %>
+          <% end %>
         </div>
         <ul class="header-list">
           <% if @current_user %>
@@ -23,19 +29,14 @@
               <% end %>
               <%= link_to(@current_user.name, show_user_path(@current_user.id)) %>
             </li>
-            <li>
-              <%= link_to("部屋一覧", rooms_path) %>
-            </li>
-            <li>
-              <%= link_to("ログアウト", logout_path, {method: :post}) %>
-            </li>
+            <li><%= link_to("ユーザー一覧", users_path) %></li>
+            <li><%= link_to("部屋一覧", rooms_path) %></li>
+            <li><%= link_to("ログアウト", logout_path, {method: :post}) %></li>
+          <% elsif params[:group_url] %>
+            <li><%= link_to("ユーザー登録", new_user_path) %></li>
+            <li><%= link_to("ログイン", login_form_path) %></li>
           <% else %>
-            <li>
-              <%= link_to("新規登録", new_user_path) %>
-            </li>
-            <li>
-              <%= link_to("ログイン", login_form_path) %>
-            </li>
+            <li><%= link_to("グループ登録", new_group_path) %></li>
           <% end %>
         </ul>
       </div>
@@ -52,6 +53,20 @@
     <footer>
       <div class="container">
         <div class="footer-copy">&copy クリップトーク</div>
+        <ul class="footer_link">
+          <% if @current_user %>
+            <li><%= link_to("ゴミ箱", garbage_group_path(@current_group.url)) %></li>
+            <% unless @current_manager %>
+              <li><%= link_to("管理者ログイン", manager_login_form_path(@current_group.url)) %></li>
+            <% else %>
+              <li><%= link_to("グループ編集", edit_group_path(@current_group.url)) %></li>
+              <li><%= link_to("管理者ログアウト", manager_logout_path(@current_group.url), {method: :post}) %></li>
+            <% end %>
+          <% end %>
+        </ul>
+        <%= "user:#{session[:user_id]}" %>
+        <%= "group:#{session[:group_id]}" %>
+        <%= "manager:#{session[:manager_id]}" %>
       </div>
     </footer>
   </body>

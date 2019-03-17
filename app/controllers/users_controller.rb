@@ -1,23 +1,31 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, {only: [:logout, :show]}
+  before_action :authenticate_user, {only: [:logout, :users, :show, :edit]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
+  before_action :ensure_correct_group, {only: [:edit, :update, :show]}
 
+  # ログイン前のアクション(forbid_login_user)---
   def new
     @user = User.new
+    @group = Group.find_by(url: params[:group_url])
   end
 
   def create
+    @group = Group.find_by(url: params[:group_url])
     @user = User.new(
       name: params[:name],
       email: params[:email],
-      password: params[:password])
+      password: params[:password],
+      group_id: @group.id,
+      is_destroyed: false)
       @user.avatar.attach(
         io: File.open(Rails.root.join("storage/default_image.jpg")),
         filename: "default_image.jpg",
         content_type: "image/jpg")
     if @user.save
+      GroupUser.create(group_id: @group.id, user_id: @user.id)
       session[:user_id] = @user.id
+      session[:group_id] = @group.id
       flash[:notice] = "ユーザー登録が完了しました"
       redirect_to(rooms_path)
     else
@@ -28,10 +36,50 @@ class UsersController < ApplicationController
     end
   end
 
+  def login_form
+    @group = Group.find_by(url: params[:group_url])
+  end
+
+  def login
+    @user = User.find_by(email: params[:email])
+    @group = Group.find_by(url: params[:group_url])
+    if @user && @user.authenticate(params[:password])
+      unless @user.is_destroyed
+        if GroupUser.where(group_id: @group.id).find_by(user_id: @user.id)
+          session[:user_id] = @user.id
+          session[:group_id] = @group.id
+          flash[:notice] = "ログインしました"
+          redirect_to(rooms_path)
+        else
+          @error_message = "他のグループにはログインできません"
+          @email = params[:email]
+          @password = params[:password]
+          render("users/login_form")
+        end
+      else
+        @error_message = "そのユーザーはログイン権限がありません"
+        @email = params[:email]
+        @password = params[:password]
+        render("users/login_form")
+      end
+    else
+      @error_message = "メールアドレスまたはパスワードが間違っています"
+      @email = params[:email]
+      @password = params[:password]
+      render("users/login_form")
+    end
+  end
+  # ---ログイン前のアクション(forbid_login_user)
+
+  # ログイン後のアクション(authenticate_user)---
+  def index
+    @users = User.where(is_destroyed: false).where(group_id: @current_group.id).page(params[:page])
+  end
+
   def show
     @user = User.find_by(id: params[:user_id])
-    @rooms = Room.where(user_id: params[:user_id]).page(params[:room_page])
-    @articles = Article.where(user_id: params[:user_id]).page(params[:article_page])
+    @rooms = Room.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:room_page])
+    @articles = Article.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:article_page])
   end
 
   def edit
@@ -54,28 +102,28 @@ class UsersController < ApplicationController
     end
   end
 
-  def login_form
-  end
-
-  def login
-    @user = User.find_by(email: params[:email])
-    if @user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
-      flash[:notice] = "ログインしました"
-      redirect_to(rooms_path)
-    else
-      @error_message = "メールアドレスまたはパスワードが間違っています"
-      @email = params[:email]
-      @password = params[:password]
-      render("users/login_form")
+  def destroy
+    @user = User.find_by(id: params[:user_id])
+    @user.is_destroyed = true
+    @user.save
+    @rooms = Room.where(user_id: @user.id).where(is_destroyed: false)
+    @rooms.each do |room|
+      room.user_id = @current_manager.id
+      room.save
     end
+    flash[:notice] = "ユーザーを削除しました"
+    redirect_to(users_path)
   end
 
   def logout
+    url = Group.find_by(id: @current_group.id).url
     session[:user_id] = nil
+    session[:group_id] = nil
+    session[:manager_id] = nil
     flash[:notice] = "ログアウトしました"
-    redirect_to(top_path)
+    redirect_to(top_group_path(url))
   end
+  # ---ログイン後のアクション(authenticate_user)
 
   # 他ユーザーの編集を制限
   def ensure_correct_user
@@ -85,4 +133,11 @@ class UsersController < ApplicationController
     end
   end
 
+  # 他グループのURLを制限
+  def ensure_correct_group
+    unless @current_group.id == User.find_by(id: params[:user_id].to_i).group_id
+      flash[:notice] = "他のグループ情報は閲覧できません"
+      redirect_to(rooms_path)
+    end
+  end
 end

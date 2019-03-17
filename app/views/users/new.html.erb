@@ -12,7 +12,7 @@
         <%= form_tag(create_user_path) do %>
           <p>名前</p>
           <input name="name" value="<%= @name %>">
-          <p>メールアドレス</p>
+          <p>メールアドレス <span>※架空のアドレスでも可 (例:○○@mail)</span></p>
           <input name="email" value="<%= @email %>">
           <p>パスワード</p>
           <input type="password" name="password" value="<%= @password %>">

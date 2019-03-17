@@ -7,6 +7,8 @@
     <div class="user-email"><%= @user.email %></div>
     <% if @user.id == @current_user.id %>
       <div class="user-edit-link"><%= link_to("編集", edit_user_path(@current_user.id)) %></div>
+    <% elsif @current_manager %>
+      <div class="user-destroy-link"><%= link_to("ユーザー削除", destroy_user_path(@user.id), method: :post, data: {confirm: "#{@user.name}をゴミ箱に移動します。あなたがこのユーザーの部屋の管理者になります。"}) %></div>
     <% end %>
 
     <div class="articles-index-list">
@@ -14,8 +16,12 @@
         <div class="articles-index-item">
           <%= link_to(article.title, show_article_path(article.room_id, article.id)) %>
           <%= article.comment_count %>トーク
-          <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
-          <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <% if article.user.is_destroyed %>
+            <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+          <% else %>
+            <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+            <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <% end %>
           <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
         </div>
       <% end %>

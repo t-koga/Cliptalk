@@ -14,24 +14,38 @@
       <%= @room.name %>
     </div>
     <div class="room-manager">
+      <% if @error_message %>
+        <div class="form-error">
+          <%= @error_message %>
+        </div>
+      <% end %>
       部屋管理: <%= link_to(@room.user.name, show_user_path(@room.user.id)) %>
-      <span class="room-manager-link"> <%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></span>
+      <% unless @room.is_destroyed %>
+        <span class="room-manager-link"> <%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></span>
+        <span class="room-destroy-link"> <%= link_to("部屋削除", destroy_room_path(@room.id), method: :post, data: {confirm: "部屋をゴミ箱に移動します。部屋のクリップも全て削除されます。"}) if @room.user.id == @current_user.id || @current_manager %></span>
+      <% end %>
     </div>
 
-    <div class="ceildroom-create-link">
-      <%= link_to("子部屋を作る", new_room_path) %>
-    </div>
-    <div class="article-create-link">
-      <%= link_to("クリップ作成", new_article_path) %>
-    </div>
+    <% unless @room.is_destroyed %>
+      <div class="ceildroom-create-link">
+        <%= link_to("小部屋を作る", new_room_path) %>
+      </div>
+      <div class="article-create-link">
+        <%= link_to("クリップ作成", new_article_path) %>
+      </div>
+    <% end %>
 
     <div class="articles-index-list">
       <% @articles.each do |article| %>
         <div class="articles-index-item">
           <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
           <%= article.comment_count %>トーク
-          <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
-          <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <% if article.user.is_destroyed %>
+            <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+          <% else %>
+            <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+            <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+          <% end %>
           <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
         </div>
       <% end %>
