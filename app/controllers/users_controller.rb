@@ -136,7 +136,7 @@ class UsersController < ApplicationController
   # 他グループのURLを制限
   def ensure_correct_group
     unless @current_group.id == User.find_by(id: params[:user_id].to_i).group_id
-      flash[:notice] = "他のグループ情報は閲覧できません"
+      flash[:notice] = "他のグループの情報は閲覧できません"
       redirect_to(rooms_path)
     end
   end

@@ -10,15 +10,23 @@
         <% end %>
 
         <%= form_with(url: update_user_path(@current_user.id), local: true) do |form| %>
-          <p>アイコン<span> ※ファイル形式:(jpg, jpeg, png, gif) サイズ制限:100KB</span></p>
-          <%= image_tag @current_user.thumbnail_large %>
-          <%= form.file_field :avatar, accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "avatarChange(this)" %>
-          <p>名前</p>
-          <%= form.text_field :name, value: @user.name %>
-          <p>メールアドレス</p>
-          <%= form.text_field :email, value: @user.email %>
-          <p>パスワード<span> ※未入力の場合は更新されません</span></p>
-          <%= form.password_field :password %>
+          <div class="form-group">
+            <label>アイコン<span class="small">　※ファイル形式：( jpg, jpeg, png, gif )　 サイズ制限：100KB</span></label>
+            <div class="my-2"><%= image_tag @current_user.thumbnail_large %></div>
+            <%= form.file_field :avatar, class: "form-control-file", accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "avatarChange(this)" %>
+          </div>
+          <div class="form-group">
+            <label>名前</label>
+            <%= form.text_field :name, value: @user.name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <%= form.text_field :email, value: @user.email, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>パスワード<span class="small">　※未入力の場合は更新されません</span></label>
+            <%= form.password_field :password, class: "form-control" %>
+          </div>
           <%= form.submit value: "編集" %>
         <% end %>
       </div>

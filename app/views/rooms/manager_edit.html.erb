@@ -1,6 +1,12 @@
 <div class="main rooms-manager-edit">
   <div class="container">
-    <div class="form-heading">管理者の変更</div>
+    <div class="form-heading">
+      <% if @room.icon.attached? %>
+        <%= image_tag @room.thumbnail_small %>
+      <% end %>
+      <%= link_to(@room.name, articles_path(@room.id)) %> > 
+      管理者の変更
+    </div>
     <div class="form room-manager-edit-form">
       <div class="form-body">
         <% if @error_message %>
@@ -10,11 +16,15 @@
         <% end %>
 
         <%= form_with(url: change_room_manager_path(params[:room_id]), local: true) do |form| %>
-          <p>管理者にするユーザーの情報を入力してください。</p><br>
-          <p>名前</p>
-          <%= form.text_field :name, value: @name %>
-          <p>メールアドレス</p>
-          <%= form.text_field :email, value: @email %>
+          <p>管理者にするユーザーの情報を入力してください。</p>
+          <div class="form-group">
+            <label>名前</label>
+            <%= form.text_field :name, value: @name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <%= form.text_field :email, value: @email, class: "form-control" %>
+          </div>
           <%= form.submit value: "管理者にする" %>
         <% end %>
       </div>

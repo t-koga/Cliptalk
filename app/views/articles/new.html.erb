@@ -15,11 +15,15 @@
           </div>
         <% end %>
 
-        <%= form_tag(create_article_path) do %>
-          <p>タイトル</p>
-          <input name="title" value="<%= @title %>">
-          <p>内容</p>
-          <textarea name="content"><%= @content %></textarea>
+        <%= form_with(url: create_article_path, local: true) do |form| %>
+          <div class="form-group">
+            <label>タイトル</label>
+            <%= form.text_field :title, value: @title, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>内容</label>
+            <%= form.text_area :content, value: @content, size: "20x10", class: "form-control" %>
+          </div>
           <input type="submit" value="作成">
         <% end %>
       </div>

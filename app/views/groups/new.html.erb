@@ -10,14 +10,25 @@
         <% end %>
 
         <%= form_with(url: create_group_path, local: true) do |form| %>
-          <p>グループURL<span> ※[アルファベット,数字,ハイフン,アンダーバー]のみ使用できます</span></p>
-          <%= request.host_with_port+"/groups/" %> <%= form.text_field :url, value: @url %>
-          <p>グループ名</p>
-          <%= form.text_field :name, value: @name %>
-          <p>メールアドレス<span> ※架空のアドレスでも可 (例:○○@mail)</span></p>
-          <%= form.text_field :email, value: @email %>
-          <p>パスワード</p>
-          <%= form.password_field :password %>
+          <div class="form-group">
+            <label>グループURL<span class="small">　※[アルファベット,数字,ハイフン,アンダーバー]のみ使用できます</span></label>
+            <div class="input-group-prepend">
+              <span class="input-group-text"><%= request.host_with_port+"/groups/" %></span>
+              <%= form.text_field :url, value: @url, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>グループ名</label>
+            <%= form.text_field :name, value: @name, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>メールアドレス<span class="small">　※架空のアドレスでも可 (例:○○@mail)</span></label>
+            <%= form.text_field :email, value: @email, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>パスワード</label>
+            <%= form.password_field :password, class: "form-control" %>
+          </div>
           <%= form.submit value: "新規登録" %>
         <% end %>
       </div>

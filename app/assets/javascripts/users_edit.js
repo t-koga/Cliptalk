@@ -18,3 +18,4 @@ function avatarChange(ev) {
     return;
   }
 }
+

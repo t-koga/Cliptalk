@@ -16,11 +16,11 @@ class User < ApplicationRecord
 
 
   def thumbnail_small
-    return self.avatar.variant(resize: "50x50").processed
+    self.avatar.variant(resize: "50x50").processed
   end
 
   def thumbnail_large
-    return self.avatar.variant(resize: "100x100").processed
+    self.avatar.variant(resize: "100x100").processed
   end
 
   def validate_avatar

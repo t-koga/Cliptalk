@@ -2,6 +2,7 @@ class RoomsController < ApplicationController
   before_action :authenticate_user
   before_action :ensure_correct_group, {except: [:index]}
   before_action :ensure_correct_manager, {only: [:edit, :update, :manager_edit, :manager_change]}
+  before_action :ensure_destroyed_room, {only: [:edit, :update, :manager_edit, :manager_change]}
 
   def index
     @rooms = Room.where(is_destroyed: false).where(super_room_id: 0).where(group_id: @current_group.id).page(params[:page])
@@ -110,13 +111,22 @@ class RoomsController < ApplicationController
     end
   end
 
+  # 削除された部屋の編集を制限
+  def ensure_destroyed_room
+    if Room.find_by(id: params[:room_id].to_i).is_destroyed
+      flash[:notice] = "削除された部屋は編集できません"
+      redirect_to(rooms_path)
+    end
+  end
+
   # 他グループのURLを制限
   def ensure_correct_group
     unless params[:room_id] == "0"
       unless @current_group.id == Room.find_by(id: params[:room_id].to_i).group_id
-        flash[:notice] = "他のグループ情報は閲覧できません"
+        flash[:notice] = "他のグループの情報は閲覧できません"
         redirect_to(rooms_path)
       end
     end
   end
+
 end

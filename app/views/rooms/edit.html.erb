@@ -16,11 +16,15 @@
         <% end %>
 
         <%= form_with(url: update_room_path(@room.id), local: true) do |form| %>
-          <p>アイコン<span> ※ ファイル形式:(jpg, jpeg, png, gif) サイズ制限:100KB</span></p>
-          <%= image_tag @room.thumbnail_large %>
-          <%= form.file_field :icon, accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "iconChange(this)" %>
-          <p>名前</p>
-          <%= form.text_field :name, value: @room.name %>
+          <div class="form-group">
+            <label>アイコン<span class="small">　※ファイル形式：( jpg, jpeg, png, gif )　 サイズ制限：100KB</span></label>
+            <div class="my-2"><%= image_tag @room.thumbnail_large %></div>
+            <%= form.file_field :icon, class: "form-control-file", accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "iconChange(this)" %>
+          </div>
+          <div class="form-group">
+            <label>名前</label>
+            <%= form.text_field :name, value: @room.name, class: "form-control" %>
+          </div>
           <%= form.submit value: "編集" %>
         <% end %>
 

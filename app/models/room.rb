@@ -1,6 +1,7 @@
 class Room < ApplicationRecord
   has_many :articles
   belongs_to :user
+  belongs_to :group
 
   has_one_attached :icon
 
@@ -12,11 +13,11 @@ class Room < ApplicationRecord
   validate :validate_icon
 
   def thumbnail_small
-    return self.icon.variant(resize: "50x50").processed
+    self.icon.variant(resize: "50x50").processed
   end
 
   def thumbnail_large
-    return self.icon.variant(resize: "100x100").processed
+    self.icon.variant(resize: "100x100").processed
   end
 
   def validate_icon

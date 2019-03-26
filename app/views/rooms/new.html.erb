@@ -17,9 +17,11 @@
           </div>
         <% end %>
 
-        <%= form_tag(create_room_path) do %>
-          <p>部屋名</p>
-          <input name="name" value="<%= @name %>">
+        <%= form_with(url: create_room_path, local: true) do |form| %>
+          <div class="form-group">
+            <label>部屋名</label>
+            <%= form.text_field :name, value: @name, class: "form-control" %>
+          </div>
           <input type="submit" value="作成">
         <% end %>
       </div>

@@ -2,6 +2,7 @@ class ArticlesController < ApplicationController
   before_action :authenticate_user
   before_action :ensure_correct_group
   before_action :ensure_correct_writer, {only: [:status, :edit, :update]}
+  before_action :ensure_destroyed_article, {only: [:status, :edit, :update]}
 
   def index
     @room = Room.find_by(id: params[:room_id])
@@ -84,10 +85,18 @@ class ArticlesController < ApplicationController
     end
   end
 
+  # 削除された記事の編集を制限
+  def ensure_destroyed_article
+    if Article.find_by(id: params[:article_id]).is_destroyed
+      flash[:notice] = "削除された記事は編集できません"
+      redirect_to(show_article_path(params[:room_id], params[:article_id]))
+    end
+  end
+
   # 他グループのURLを制限
   def ensure_correct_group
     unless @current_group.id == Room.find_by(id: params[:room_id].to_i).group_id
-      flash[:notice] = "他のグループ情報は閲覧できません"
+      flash[:notice] = "他のグループの情報は閲覧できません"
       redirect_to(rooms_path)
     end
   end

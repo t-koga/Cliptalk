@@ -53,8 +53,8 @@
             </div>
           <% end %>
 
-          <%= form_tag(create_comment_path(@article.room_id, @article.id)) do %>
-            <textarea name="content"><%= @content %></textarea>
+          <%= form_with(url: create_comment_path(@article.room_id, @article.id), local: true) do |form| %>
+            <%= form.text_area :content, value: @content, size: "20x10", class: "form-control" %>
             <input type="submit" value="作成">
           <% end %>
         </div>

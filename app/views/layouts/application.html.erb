@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Myapp</title>
+    <title>ClipTalk</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,64 +10,62 @@
   </head>
 
   <body>
-    <header>
-      <div class="container">
-        <div class="header-title">
+    <div id="wrapper">
+      <header class="navbar navbar-expand navbar-light mb-3 border-bottom flex-column flex-md-row">
+        <div class="navbar-nav navbar-brand p-0 mr-md-auto">
           <% if @current_group %>
-            <%= link_to(@current_group.name, top_group_path(@current_group.url)) %>
+            <%= link_to(@current_group.name, top_group_path(@current_group.url), {:class => "nav-link"}) %>
           <% elsif params[:group_url] %>
-            <%= link_to(@group.name, top_group_path) %>
+            <%= link_to(@group.name, top_group_path, {:class => "nav-link"}) %>
           <% else %>
-            <%= link_to("Project クリップトーク", top_path) %>
+            <%= link_to("Clip Talk", top_path, {:class => "nav-link font-weight-bold"}) %>
           <% end %>
         </div>
-        <ul class="header-list">
+        <ul class="navbar-nav p-0 mt-1 mt-md-0">
           <% if @current_user %>
-            <li>
+            <li class="nav-item">
               <% if @current_user.avatar.attached? %>
-                <%= image_tag @current_user.thumbnail_small %>
+                <%= image_tag @current_user.thumbnail_small, {:class => "float-left"} %>
               <% end %>
-              <%= link_to(@current_user.name, show_user_path(@current_user.id)) %>
+              <%= link_to(@current_user.name, show_user_path(@current_user.id), {:class => "nav-link float-right"}) %>
             </li>
-            <li><%= link_to("ユーザー一覧", users_path) %></li>
-            <li><%= link_to("部屋一覧", rooms_path) %></li>
-            <li><%= link_to("ログアウト", logout_path, {method: :post}) %></li>
+            <li class="nav-item"><%= link_to("ユーザー一覧", users_path, {:class => "nav-link"}) %></li>
+            <li class="nav-item"><%= link_to("部屋一覧", rooms_path, {:class => "nav-link"}) %></li>
+            <li class="nav-item"><%= link_to("ログアウト", logout_path, {method: :post, :class => "nav-link"}) %></li>
           <% elsif params[:group_url] %>
-            <li><%= link_to("ユーザー登録", new_user_path) %></li>
-            <li><%= link_to("ログイン", login_form_path) %></li>
+            <li class="nav-item"><%= link_to("ユーザー登録", new_user_path, {:class => "nav-link"}) %></li>
+            <li class="nav-item"><%= link_to("ログイン", login_form_path, {:class => "nav-link"}) %></li>
           <% else %>
-            <li><%= link_to("グループ登録", new_group_path) %></li>
+            <li class="nav-item"><%= link_to("グループ登録", new_group_path, {:class => "nav-link"}) %></li>
           <% end %>
         </ul>
-      </div>
-    </header>
+      </header>
 
-    <% if flash[:notice] %>
-      <div class="flash">
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
+      <% if flash[:notice] %>
+        <div class="flash">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
 
-    <%= yield %>
+      <main class="">
+        <%= yield %>
+      </main>
 
-    <footer>
-      <div class="container">
-        <div class="footer-copy">&copy クリップトーク</div>
-        <ul class="footer_link">
-          <% if @current_user %>
-            <li><%= link_to("ゴミ箱", garbage_group_path(@current_group.url)) %></li>
-            <% unless @current_manager %>
-              <li><%= link_to("管理者ログイン", manager_login_form_path(@current_group.url)) %></li>
-            <% else %>
-              <li><%= link_to("グループ編集", edit_group_path(@current_group.url)) %></li>
-              <li><%= link_to("管理者ログアウト", manager_logout_path(@current_group.url), {method: :post}) %></li>
-            <% end %>
+      <ul class="footer_link">
+        <% if @current_user %>
+          <li><%= link_to("ゴミ箱", garbage_group_path(@current_group.url)) %></li>
+          <% unless @current_manager %>
+            <li><%= link_to("管理者ログイン", manager_login_form_path(@current_group.url)) %></li>
+          <% else %>
+            <li><%= link_to("グループ編集", edit_group_path(@current_group.url)) %></li>
+            <li><%= link_to("管理者ログアウト", manager_logout_path(@current_group.url), {method: :post}) %></li>
           <% end %>
-        </ul>
-        <%= "user:#{session[:user_id]}" %>
-        <%= "group:#{session[:group_id]}" %>
-        <%= "manager:#{session[:manager_id]}" %>
-      </div>
-    </footer>
+        <% end %>
+      </ul>
+
+      <footer class="bg-secondary text-center text-white mt-auto mx-0 border-top">
+        <div class="footer-copy">&copy Clip Talk</div>
+      </footer>
+    </div>
   </body>
 </html>
