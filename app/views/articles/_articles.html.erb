@@ -1,0 +1,15 @@
+<% @articles.each do |article| %>
+  <div class="index-item articles-index-item">
+    <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
+    <span class="index-item-text"><%= article.title %></span><br>
+    <%= article.comment_count %>トーク
+    <% if article.user.is_destroyed %>
+      <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+    <% else %>
+      <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+      <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+    <% end %>
+    <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
+  </div>
+<% end %>
+<%= paginate @articles, :param_name => 'article_page', :remote => true %>

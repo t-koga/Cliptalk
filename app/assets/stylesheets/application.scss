@@ -156,6 +156,14 @@ main {
   color: #007bff;
 }
 
+.index-list > nav {
+  margin: 1rem;
+}
+
+.pagination {
+  flex-wrap: wrap;
+}
+
 footer .nav-link {
   padding: 3px;
   margin-bottom: 6px;

@@ -1,0 +1,10 @@
+<% @rooms.each do |room| %>
+  <div class="index-item rooms-index-item">
+    <% if room.icon.attached? %>
+      <%= image_tag room.thumbnail_small %>
+    <% end %>
+    <%= link_to(room.name, articles_path(room.id)) %>
+    <span class="index-item-text"><%= room.name %></span>
+  </div>
+<% end %>
+<%= paginate @rooms, :param_name => 'room_page', :remote => true %>

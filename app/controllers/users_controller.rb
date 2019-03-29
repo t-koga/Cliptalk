@@ -73,13 +73,21 @@ class UsersController < ApplicationController
 
   # ログイン後のアクション(authenticate_user)---
   def index
-    @users = User.where(is_destroyed: false).where(group_id: @current_group.id).page(params[:page]).per(5)
+    @users = User.where(is_destroyed: false).where(group_id: @current_group.id).page(params[:page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def show
     @user = User.find_by(id: params[:user_id])
-    @rooms = Room.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:room_page]).per(2)
-    @articles = Article.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:article_page]).per(2)
+    @rooms = Room.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:room_page])
+    @articles = Article.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:article_page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def edit

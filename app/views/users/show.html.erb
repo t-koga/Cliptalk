@@ -12,7 +12,7 @@
         <div class="user-avatar">
           <%= image_tag @user.thumbnail_large %>
         </div>
-        <div class="user-name h3"><%= @user.name %></div>
+        <div class="user-name h3 mt-2"><%= @user.name %></div>
         <div class="user-email h5"><%= @user.email %></div>
       </div>
     </div>
@@ -29,33 +29,10 @@
 
       <div class="tab-content col-lg-8 offset-lg-2">
         <div id="tab1" class="index-list articles-index-list tab-pane active">
-          <% @articles.each do |article| %>
-            <div class="index-item articles-index-item">
-              <%= link_to(article.title, show_article_path(article.room_id, article.id)) %>
-              <span class="index-item-text"><%= article.title %></span><br>
-              <%= article.comment_count %>トーク
-              <% if article.user.is_destroyed %>
-                <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
-              <% else %>
-                <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
-                <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
-              <% end %>
-              <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
-            </div>
-          <% end %>
-          <%= paginate @articles, :param_name => 'article_page' %>
+          <%= render :partial => "show_articles" %>
         </div>
         <div id="tab2" class="index-list rooms-index-list tab-pane">
-          <% @rooms.each do |room| %>
-            <div class="index-item rooms-index-item">
-              <% if room.icon.attached? %>
-                <%= image_tag room.thumbnail_small %>
-              <% end %>
-              <%= link_to(room.name, articles_path(room.id)) %>
-              <span class="index-item-text"><%= room.name %></span>
-            </div>
-          <% end %>
-          <%= paginate @rooms, :param_name => 'room_page' %>
+          <%= render :partial => "show_rooms" %>
         </div>
       </div>
     </div>

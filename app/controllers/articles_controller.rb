@@ -7,8 +7,12 @@ class ArticlesController < ApplicationController
   def index
     @room = Room.find_by(id: params[:room_id])
     @super_room = Room.find_by(id: @room.super_room_id)
-    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id).page(params[:room_page]).per(2)
-    @articles = Article.where(is_destroyed: false).where(room_id: @room.id).page(params[:article_page]).per(2)
+    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id).page(params[:room_page])
+    @articles = Article.where(is_destroyed: false).where(room_id: @room.id).page(params[:article_page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new

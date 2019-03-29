@@ -14,6 +14,8 @@ class User < ApplicationRecord
   validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_avatar
 
+  paginates_per 30
+
 
   def thumbnail_small
     self.avatar.variant(resize: "50x50").processed

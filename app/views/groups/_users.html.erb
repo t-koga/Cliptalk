@@ -1,0 +1,10 @@
+<% @users.each do |user| %>
+  <div class="index-item users-index-item">
+    <% if user.avatar.attached? %>
+      <%= image_tag user.thumbnail_small %>
+    <% end %>
+    <%= link_to(user.name, show_user_path(user.id)) %>
+    <span class="index-item-text"><%= user.name %></span>
+  </div>
+<% end %>
+<%= paginate @users, :param_name => 'user_page', :remote => true %>

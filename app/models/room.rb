@@ -12,6 +12,8 @@ class Room < ApplicationRecord
   validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_icon
 
+  paginates_per 25
+
   def thumbnail_small
     self.icon.variant(resize: "50x50").processed
   end

@@ -2,16 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="index-list users-index-list col-lg-8 offset-lg-2">
-        <% @users.each do |user| %>
-          <div class="index-item users-index-item">
-            <% if user.avatar.attached? %>
-              <%= image_tag user.thumbnail_small %>
-            <% end %>
-            <%= link_to(user.name, show_user_path(user.id)) %>
-            <span class="index-item-text"><%= user.name %></span>
-          </div>
-        <% end %>
-        <%= paginate @users %>
+        <%= render :partial => "index_users" %>
       </div>
     </div>
   </div>

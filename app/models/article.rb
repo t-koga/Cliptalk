@@ -13,4 +13,6 @@ class Article < ApplicationRecord
   validates :is_solved, inclusion: {in: [true, false]}
   validates :is_destroyed, inclusion: {in: [true, false]}
 
+  paginates_per 50
+
 end

@@ -5,7 +5,11 @@ class RoomsController < ApplicationController
   before_action :ensure_destroyed_room, {only: [:edit, :update, :manager_edit, :manager_change]}
 
   def index
-    @rooms = Room.where(is_destroyed: false).where(super_room_id: 0).where(group_id: @current_group.id).page(params[:page]).per(1)
+    @rooms = Room.where(is_destroyed: false).where(super_room_id: 0).where(group_id: @current_group.id).page(params[:page])
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def new
