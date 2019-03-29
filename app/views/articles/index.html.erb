@@ -1,68 +1,67 @@
 <div class="main articles-index">
-  <div class="container">
-    <div class="room-name">
-      <% if @room.super_room_id != 0 %>
-        <% if @super_room.icon.attached? %>
-          <%= image_tag @super_room.thumbnail_small %>
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="room-edit-menu col-lg-2 mb-3 text-center text-lg-left">
+        <div class="room-manager-link">部屋管理: <%= link_to(@room.user.name, show_user_path(@room.user.id)) %></div>
+        <div class="edit-menu">
+          <% unless @room.is_destroyed %>
+            <div class="room-edit-link inline-block"><%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></div>
+            <div class="room-destroy-link inline-block"> <%= link_to("部屋削除", destroy_room_path(@room.id), method: :post, data: {confirm: "部屋をゴミ箱に移動します。部屋のクリップも全て削除されます。"}) if @room.user.id == @current_user.id || @current_manager %></div>
+            <div class="childroom-create-link inline-block"><%= link_to("小部屋を作る", new_room_path) %></div>
+            <div class="article-create-link inline-block"><%= link_to("クリップ作成", new_article_path) %></div>
+          <% end %>
+        </div>
+      </div>
+      <div class="user-index col-lg-8">
+        <div class="parentroom text-left">
+          <% if @room.super_room_id != 0 %>
+            <% if @super_room.icon.attached? %>
+              <%= image_tag @super_room.thumbnail_small %>
+            <% end %>
+            <span class="room-name h5"><%= link_to(@super_room.name, articles_path(@super_room.id)) %> ></span><br>
+          <% end %>
+        </div>
+        <div class="childroom">
+          <% if @room.icon.attached? %>
+            <%= image_tag @room.thumbnail_small %>
+          <% end %>
+          <span class="room-name h3"><%= @room.name %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="index-list articles-index-list col-lg-8 offset-lg-2">
+        <% @articles.each do |article| %>
+          <div class="index-item articles-index-item">
+            <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
+            <span class="index-item-text"><%= article.title %></span><br>
+            <%= article.comment_count %>トーク
+            <% if article.user.is_destroyed %>
+              <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+            <% else %>
+              <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+              <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+            <% end %>
+            <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
+          </div>
         <% end %>
-        <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
-      <% end %>
-
-      <% if @room.icon.attached? %>
-        <%= image_tag @room.thumbnail_small %>
-      <% end %>
-      <%= @room.name %>
-    </div>
-    <div class="room-manager">
-      <% if @error_message %>
-        <div class="form-error">
-          <%= @error_message %>
-        </div>
-      <% end %>
-      部屋管理: <%= link_to(@room.user.name, show_user_path(@room.user.id)) %>
-      <% unless @room.is_destroyed %>
-        <span class="room-manager-link"> <%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></span>
-        <span class="room-destroy-link"> <%= link_to("部屋削除", destroy_room_path(@room.id), method: :post, data: {confirm: "部屋をゴミ箱に移動します。部屋のクリップも全て削除されます。"}) if @room.user.id == @current_user.id || @current_manager %></span>
-      <% end %>
-    </div>
-
-    <% unless @room.is_destroyed %>
-      <div class="ceildroom-create-link">
-        <%= link_to("小部屋を作る", new_room_path) %>
+        <%= paginate @articles, :param_name => 'article_page' %>
       </div>
-      <div class="article-create-link">
-        <%= link_to("クリップ作成", new_article_path) %>
+
+      <div class="index-list-mini rooms-index-list col-lg-2">
+        <% @rooms.each do |room| %>
+          <div class="index-item-mini rooms-index-item">
+            <% if room.icon.attached? %>
+              <%= image_tag room.thumbnail_small %>
+            <% end %>
+            <%= link_to(room.name, articles_path(room.id)) %>
+            <span class="index-item-text-mini"><%= room.name %></span>
+          </div>
+        <% end %>
+        <%= paginate @rooms, :param_name => 'room_page' %>
       </div>
-    <% end %>
-
-    <div class="articles-index-list">
-      <% @articles.each do |article| %>
-        <div class="articles-index-item">
-          <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
-          <%= article.comment_count %>トーク
-          <% if article.user.is_destroyed %>
-            <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
-          <% else %>
-            <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
-            <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
-          <% end %>
-          <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
-        </div>
-      <% end %>
     </div>
-    <%= paginate @articles, :param_name => 'article_page' %>
-
-    <div class="rooms-index-list">
-      <% @rooms.each do |room| %>
-        <div class="rooms-index-item">
-          <% if room.icon.attached? %>
-            <%= image_tag room.thumbnail_small %>
-          <% end %>
-          <%= link_to(room.name, articles_path(room.id)) %>
-        </div>
-      <% end %>
-    </div>
-    <%= paginate @rooms, :param_name => 'room_page' %>
 
   </div>
 </div>

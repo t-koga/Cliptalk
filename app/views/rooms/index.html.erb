@@ -1,20 +1,23 @@
 <div class="main rooms-index">
-  <div class="container">
-    <div class="room-create-link">
-      <%= link_to("部屋を作る", new_room_path("0")) %>
-    </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="room-create-link col-lg-2 mb-3">
+        <%= link_to("部屋を作る", new_room_path("0")) %>
+      </div>
 
-    <div class="rooms-index-list">
-      <% @rooms.each do |room| %>
-        <div class="rooms-index-item">
-          <% if room.icon.attached? %>
-            <%= image_tag room.thumbnail_small %>
-          <% end %>
-          <%= link_to(room.name, articles_path(room.id)) %>
-        </div>
-      <% end %>
+      <div class="index-list rooms-index-list col-lg-8">
+        <% @rooms.each do |room| %>
+          <div class="index-item rooms-index-item">
+            <% if room.icon.attached? %>
+              <%= image_tag room.thumbnail_small %>
+            <% end %>
+            <%= link_to(room.name, articles_path(room.id)) %>
+            <span class="index-item-text"><%= room.name %></span>
+          </div>
+        <% end %>
+        <%= paginate @rooms %>
+      </div>
     </div>
-    <%= paginate @rooms %>
   </div>
 </div>
 

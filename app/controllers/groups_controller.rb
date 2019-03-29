@@ -56,9 +56,9 @@ class GroupsController < ApplicationController
   end
 
   def garbage
-    @users = User.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:user_page])
-    @rooms = Room.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:room_page])
-    @articles = Article.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:article_page])
+    @users = User.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:user_page]).per(2)
+    @rooms = Room.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:room_page]).per(2)
+    @articles = Article.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:article_page]).per(2)
   end
 
   def edit

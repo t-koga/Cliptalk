@@ -29,13 +29,14 @@
 //   }
 // });
 
-$(window).resize(function(){
-  var x = $(window).width();
-  var y = 768;
-  if (x <= y) {
-      $('header').removeClass('sticky-top');
-  }else{
-      $('header').addClass('sticky-top');
-  }
-});
+//// フッターを固定する機能（必要性を感じないため、一旦コメントアウト）
+// $(window).resize(function(){
+//   var x = $(window).width();
+//   var y = 768;
+//   if (x <= y) {
+//       $('header').removeClass('sticky-top');
+//   }else{
+//       $('header').addClass('sticky-top');
+//   }
+// });
 

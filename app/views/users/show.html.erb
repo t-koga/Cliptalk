@@ -1,43 +1,64 @@
 <div class="main users-show">
-  <div class="container">
-    <div class="user-avatar">
-      <%= image_tag @user.thumbnail_large %>
+  <div class="container-fluid">
+    <div class="row mb-3">
+      <div class="edit-menu user-edit-menu col-lg-2 mb-3">
+        <% if @user.id == @current_user.id %>
+          <div class="user-edit-link"><%= link_to("編集", edit_user_path(@current_user.id)) %></div>
+        <% elsif @current_manager %>
+          <div class="user-destroy-link"><%= link_to("ユーザー削除", destroy_user_path(@user.id), method: :post, data: {confirm: "#{@user.name}をゴミ箱に移動します。あなたがこのユーザーの部屋の管理者になります。"}) %></div>
+        <% end %>
+      </div>
+      <div class="user-index col-lg-8">
+        <div class="user-avatar">
+          <%= image_tag @user.thumbnail_large %>
+        </div>
+        <div class="user-name h3"><%= @user.name %></div>
+        <div class="user-email h5"><%= @user.email %></div>
+      </div>
     </div>
-    <div class="user-name"><%= @user.name %></div>
-    <div class="user-email"><%= @user.email %></div>
-    <% if @user.id == @current_user.id %>
-      <div class="user-edit-link"><%= link_to("編集", edit_user_path(@current_user.id)) %></div>
-    <% elsif @current_manager %>
-      <div class="user-destroy-link"><%= link_to("ユーザー削除", destroy_user_path(@user.id), method: :post, data: {confirm: "#{@user.name}をゴミ箱に移動します。あなたがこのユーザーの部屋の管理者になります。"}) %></div>
-    <% end %>
 
-    <div class="articles-index-list">
-      <% @articles.each do |article| %>
-        <div class="articles-index-item">
-          <%= link_to(article.title, show_article_path(article.room_id, article.id)) %>
-          <%= article.comment_count %>トーク
-          <% if article.user.is_destroyed %>
-            <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
-          <% else %>
-            <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
-            <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+    <div class="row">
+      <ul class="nav nav-tabs col-lg-8 offset-lg-2">
+        <li class="nav-item">
+          <a href="#tab1" class="nav-link active" data-toggle="tab">クリップ</a>
+        </li>
+        <li class="nav-item">
+          <a href="#tab2" class="nav-link" data-toggle="tab">部屋</a>
+        </li>
+      </ul>
+
+      <div class="tab-content col-lg-8 offset-lg-2">
+        <div id="tab1" class="index-list articles-index-list tab-pane active">
+          <% @articles.each do |article| %>
+            <div class="index-item articles-index-item">
+              <%= link_to(article.title, show_article_path(article.room_id, article.id)) %>
+              <span class="index-item-text"><%= article.title %></span><br>
+              <%= article.comment_count %>トーク
+              <% if article.user.is_destroyed %>
+                <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+              <% else %>
+                <span class="article-progress" style="color:red"><%= "進行中" if article.is_solved == false %></span>
+                <span class="article-solved" style="color:green"><%= "完了" if article.is_solved == true %></span>
+              <% end %>
+              <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
+            </div>
           <% end %>
-          <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
+          <%= paginate @articles, :param_name => 'article_page' %>
         </div>
-      <% end %>
-    </div>
-    <%= paginate @articles, :param_name => 'article_page' %>
-    <div class="rooms-index-list">
-      <% @rooms.each do |room| %>
-        <div class="rooms-index-item">
-          <% if room.icon.attached? %>
-            <%= image_tag room.thumbnail_small %>
+        <div id="tab2" class="index-list rooms-index-list tab-pane">
+          <% @rooms.each do |room| %>
+            <div class="index-item rooms-index-item">
+              <% if room.icon.attached? %>
+                <%= image_tag room.thumbnail_small %>
+              <% end %>
+              <%= link_to(room.name, articles_path(room.id)) %>
+              <span class="index-item-text"><%= room.name %></span>
+            </div>
           <% end %>
-          <%= link_to(room.name, articles_path(room.id)) %>
+          <%= paginate @rooms, :param_name => 'room_page' %>
         </div>
-      <% end %>
+      </div>
     </div>
-    <%= paginate @rooms, :param_name => 'room_page' %>
   </div>
 </div>
 

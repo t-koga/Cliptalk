@@ -11,8 +11,8 @@
 
   <body>
     <div id="wrapper">
-      <header class="navbar navbar-expand navbar-light mb-3 border-bottom flex-column flex-md-row">
-        <div class="navbar-nav navbar-brand p-0 mr-md-auto">
+      <header class="navbar navbar-expand navbar-light border-bottom flex-column flex-lg-row">
+        <div class="navbar-nav navbar-brand p-0 mr-lg-auto">
           <% if @current_group %>
             <%= link_to(@current_group.name, top_group_path(@current_group.url), {:class => "nav-link"}) %>
           <% elsif params[:group_url] %>
@@ -21,7 +21,7 @@
             <%= link_to("Clip Talk", top_path, {:class => "nav-link font-weight-bold"}) %>
           <% end %>
         </div>
-        <ul class="navbar-nav p-0 mt-1 mt-md-0">
+        <ul class="navbar-nav p-0 mt-1 mt-lg-0">
           <% if @current_user %>
             <li class="nav-item">
               <% if @current_user.avatar.attached? %>
@@ -42,29 +42,32 @@
       </header>
 
       <% if flash[:notice] %>
-        <div class="flash">
+        <div class="alert alert-info">
           <%= flash[:notice] %>
         </div>
       <% end %>
 
-      <main class="">
+      <main class="my-4">
         <%= yield %>
       </main>
 
-      <ul class="footer_link">
-        <% if @current_user %>
-          <li><%= link_to("ゴミ箱", garbage_group_path(@current_group.url)) %></li>
-          <% unless @current_manager %>
-            <li><%= link_to("管理者ログイン", manager_login_form_path(@current_group.url)) %></li>
-          <% else %>
-            <li><%= link_to("グループ編集", edit_group_path(@current_group.url)) %></li>
-            <li><%= link_to("管理者ログアウト", manager_logout_path(@current_group.url), {method: :post}) %></li>
-          <% end %>
-        <% end %>
-      </ul>
-
-      <footer class="bg-secondary text-center text-white mt-auto mx-0 border-top">
-        <div class="footer-copy">&copy Clip Talk</div>
+      <footer class="container-fluid bg-secondary mt-auto mx-0 border-top">
+        <div class="row align-items-center">
+          <div class="col-12 col-lg-10 footer-left text-center text-white pr-0 order-2 order-lg-1">&copy Clip Talk</div>
+          <nav class="col-12 col-lg-2 navbar navbar-expand navbar-dark text-center text-lg-left p-0 order-1 order-lg-2">
+            <ul class="navbar-nav flex-column mx-auto mb-lg-0 pl-lg-3">
+              <% if @current_user %>
+                <li class="nav-item"><%= link_to("ゴミ箱", garbage_group_path(@current_group.url), {:class => "nav-link"}) %></li>
+                <% unless @current_manager %>
+                  <li class="nav-item"><%= link_to("管理者ログイン", manager_login_form_path(@current_group.url), {:class => "nav-link"}) %></li>
+                <% else %>
+                  <li class="nav-item"><%= link_to("グループ編集", edit_group_path(@current_group.url), {:class => "nav-link"}) %></li>
+                  <li class="nav-item"><%= link_to("管理者ログアウト", manager_logout_path(@current_group.url), {method: :post, :class => "nav-link"}) %></li>
+                <% end %>
+              <% end %>
+            </ul>
+          </nav>
+        </div>
       </footer>
     </div>
   </body>
