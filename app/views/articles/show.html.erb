@@ -1,64 +1,71 @@
 <div class="main articles-show">
-  <div class="container">
-    <div class="article-room">
-      <% if @room.icon.attached? %>
-        <%= image_tag @room.thumbnail_small %>
-      <% end %>
-      <%= link_to(@room.name, articles_path(@room.id)) %>
-    </div>
-
-    <div class="article-body">
-      <div class="article-title"><%= @article.title %></div>
-      <div class="article-status">
-        <% if @article.user.is_destroyed %>
-          <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
-        <% else %>
-          <span class="article-progress" style="color:red"><%= "進行中" if @article.is_solved == false %></span>
-          <span class="article-solved" style="color:green"><%= "完了" if @article.is_solved == true %></span>
-          <%= link_to("変更", status_article_path(params[:room_id], params[:article_id]), method: :post) if @article.user.id == @current_user.id && @article.is_destroyed == false %>
-        <% end %>
-      </div>
-      <div class="article-manager">
-        作成者: <%= link_to(@article.user.name, show_user_path(@article.user.id)) %>
-        <% unless @article.is_destroyed %>
-          <span class="article-manager-link"> <%= link_to("クリップ編集", edit_article_path(params[:room_id], params[:article_id])) if @article.user.id == @current_user.id %></span>
-          <span class="article-destroy-link"> <%= link_to("クリップ削除", destroy_article_path(params[:room_id], params[:article_id]), method: :post, data: {confirm: "クリップをゴミ箱に移動します。"}) if @article.user.id == @current_user.id || @current_manager %></span>
-        <% end %>
-      </div>
-      <div class="article-content"><%= @article.content %></div>
-      <div class="article-update-time"><%= @article.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
-    </div>
-
-    <hr>
-    <div class="comments-heading">トーク</div>
-    <% @comments.each_with_index do |comment, i| %>
-      <div class="comments-item">
-        <%= "#{i+1}." %>
-        <% if comment.user.avatar.attached? %>
-          <%= image_tag comment.user.thumbnail_small %>
-        <% end %>
-        <%= link_to(comment.user.name, show_user_path(comment.user.id)) %>
-        <%= comment.content %>
-        <%= comment.created_at.strftime("%Y-%m-%d %H:%M:%S") %>
-      </div>
-    <% end %>
-
-    <% unless @article.is_destroyed %>
-      <div class="form-heading">トーク作成</div>
-      <div class="form comments-form">
-        <div class="form-body">
-          <% @comment.errors.full_messages.each do |message| %>
-            <div class="form-error">
-              <%= message %>
-            </div>
-          <% end %>
-
-          <%= form_with(url: create_comment_path(@article.room_id, @article.id), local: true) do |form| %>
-            <%= form.text_area :content, value: @content, size: "20x10", class: "form-control" %>
-            <input type="submit" value="作成">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="article-edit-menu col-lg-2 mb-3 text-center text-lg-left">
+        <div class="article-manager-link">作成者: <%= link_to(@article.user.name, show_user_path(@article.user.id)) %></div>
+        <div class="edit-menu">
+          <% unless @article.is_destroyed %>
+            <div class="article-manager-link inline-block"> <%= link_to("クリップ編集", edit_article_path(params[:room_id], params[:article_id])) if @article.user.id == @current_user.id %></div>
+            <div class="article-destroy-link inline-block"> <%= link_to("クリップ削除", destroy_article_path(params[:room_id], params[:article_id]), method: :post, data: {confirm: "クリップをゴミ箱に移動します。"}) if @article.user.id == @current_user.id || @current_manager %></div>
           <% end %>
         </div>
       </div>
-    <% end %>
+      <div class="article col-lg-8 text-center">
+        <div class="article-room text-left">
+          <% if @room.icon.attached? %>
+            <%= image_tag @room.thumbnail_small %>
+          <% end %>
+          <span class="room-name h5"><%= link_to(@room.name, articles_path(@room.id)) %> ></span><br>
+        </div>
+        <div class="text-left mt-3">
+          <div class="article-title h4"><%= @article.title %></div>
+          <div class="article-status">
+            <% if @article.user.is_destroyed %>
+              <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>
+            <% else %>
+              <span class="article-progress" style="color:red"><%= "進行中" if @article.is_solved == false %></span>
+              <span class="article-solved" style="color:green"><%= "完了" if @article.is_solved == true %></span>
+              <%= link_to("変更", status_article_path(params[:room_id], params[:article_id]), method: :post) if @article.user.id == @current_user.id && @article.is_destroyed == false %>
+            <% end %>
+          </div>
+          <div class="article-update-time"><%= @article.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div><hr>
+          <div class="article-content"><%= raw(nl2br(@article.content)) %></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="index-list comment-index-list col-lg-8 offset-lg-2">
+        <div class="comments-heading p-2"><strong>トーク</strong></div><hr>
+        <% @comments.each_with_index do |comment, i| %>
+          <div class="comments-index-item">
+            <%= "#{i+1}." %>
+            <% if comment.user.avatar.attached? %>
+              <%= image_tag comment.user.thumbnail_small %>
+            <% end %>
+            <span class="index-item-text"><%= comment.user.name %></span>
+            <div class="comment-content my-2"><%= raw(nl2br(comment.content)) %></div>
+            <div class="comment-create-time text-right"><%= comment.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div>
+          </div>
+        <% end %>
+
+        <% unless @article.is_destroyed %>
+          <div class="form-heading mt-3">トーク作成</div>
+          <div class="form comments-form">
+            <div class="form-body">
+              <% @comment.errors.full_messages.each do |message| %>
+                <div class="form-error">
+                  <%= message %>
+                </div>
+              <% end %>
+              <%= form_with(url: create_comment_path(@article.room_id, @article.id), local: true) do |form| %>
+                <%= form.text_area :content, value: @content, size: "20x10", class: "form-control" %>
+                <input class="mt-2" type="submit" value="作成">
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

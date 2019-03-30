@@ -8,7 +8,7 @@
           <div class="user-destroy-link"><%= link_to("ユーザー削除", destroy_user_path(@user.id), method: :post, data: {confirm: "#{@user.name}をゴミ箱に移動します。あなたがこのユーザーの部屋の管理者になります。"}) %></div>
         <% end %>
       </div>
-      <div class="user-index col-lg-8">
+      <div class="head-row-center col-lg-8">
         <div class="user-avatar">
           <%= image_tag @user.thumbnail_large %>
         </div>

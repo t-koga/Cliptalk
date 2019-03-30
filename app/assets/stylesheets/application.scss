@@ -41,6 +41,13 @@ main {
   margin-top: 24px;
 }
 
+.article {
+  background-color: white;
+  padding: 15px;
+  border: solid 1px #f0f0f0;
+  border-radius: 5px;
+}
+
 .form-heading {
   font-size: 24px;
   font-weight: bold;
@@ -63,7 +70,7 @@ main {
   border-bottom: 0;
 }
 
-.user-index {
+.head-row-center {
   padding: 15px;
   text-align: center;
 }
@@ -87,6 +94,12 @@ main {
 }
 
 .index-item {
+  position: relative;
+  border-bottom: solid 1px #f0f0f0;
+  padding: 9px;
+}
+
+.comments-index-item {
   position: relative;
   border-bottom: solid 1px #f0f0f0;
   padding: 9px;
