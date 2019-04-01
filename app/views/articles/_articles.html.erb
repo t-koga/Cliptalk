@@ -1,7 +1,7 @@
 <% @articles.each do |article| %>
   <div class="index-item articles-index-item">
     <%= link_to(article.title, show_article_path(@room.id, article.id)) %>
-    <span class="index-item-text"><%= article.title %></span><br>
+    <span class="index-item-text"><%= article.title.truncate(100) %></span><br>
     <%= article.comment_count %>トーク
     <% if article.user.is_destroyed %>
       <span class="article-nil-user" style="color:gray"><%= "ユーザー不在" %></span>

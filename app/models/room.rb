@@ -5,14 +5,15 @@ class Room < ApplicationRecord
 
   has_one_attached :icon
 
-  validates :name, {presence: true, uniqueness: {scope: :super_room_id}}
+  # 最大100文字,同部屋内で重複不可
+  validates :name, {presence: true, uniqueness: {scope: :super_room_id}, length: {maximum: 100}}
   validates :user_id, {presence: true}
   validates :super_room_id, {presence: true}
   validates :group_id, {presence: true}
   validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_icon
 
-  paginates_per 25
+  paginates_per 30
 
   def thumbnail_small
     self.icon.variant(resize: "50x50").processed

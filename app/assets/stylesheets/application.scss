@@ -24,11 +24,25 @@ header {
   height: 110px;
   position: static;
   .navbar-brand {
-    font-size: 30px;
+    font-size: 25px;
     .nav-link {
       padding: 0;
     }
   }
+}
+
+header > .navbar-brand > .nav-link {
+  max-width: 480px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar-nav > .user-name > .nav-link {
+  max-width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #wrapper {

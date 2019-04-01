@@ -14,7 +14,8 @@ class GroupsController < ApplicationController
       url: params[:url],
       name: params[:name],
       email: params[:email],
-      password: params[:password])
+      password: params[:password],
+      password_confirmation: params[:password_confirmation])
     if @group.save
       flash[:notice] = "グループ登録が完了しました"
       redirect_to(top_group_path(@group.url))
@@ -58,7 +59,7 @@ class GroupsController < ApplicationController
   def garbage
     @users = User.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:user_page]).per(50)
     @rooms = Room.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:room_page]).per(50)
-    @articles = Article.where(is_destroyed: true).where(group_id: @current_group.id).page(params[:article_page]).per(50)
+    @articles = Article.where(is_destroyed: true).where(group_id: @current_group.id).order(id: :desc).page(params[:article_page]).per(50)
     respond_to do |format|
       format.html
       format.js

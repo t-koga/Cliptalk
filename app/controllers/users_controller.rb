@@ -16,6 +16,7 @@ class UsersController < ApplicationController
       name: params[:name],
       email: params[:email],
       password: params[:password],
+      password_confirmation: params[:password_confirmation],
       group_id: @group.id,
       is_destroyed: false)
       @user.avatar.attach(
@@ -83,7 +84,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(id: params[:user_id])
     @rooms = Room.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:room_page])
-    @articles = Article.where(is_destroyed: false).where(user_id: params[:user_id]).page(params[:article_page])
+    @articles = Article.where(is_destroyed: false).where(user_id: params[:user_id]).order(id: :desc).page(params[:article_page])
     respond_to do |format|
       format.html
       format.js

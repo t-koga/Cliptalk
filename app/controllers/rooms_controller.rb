@@ -89,8 +89,8 @@ class RoomsController < ApplicationController
   def destroy
     @room = Room.find_by(id: params[:room_id])
     @super_room = Room.find_by(id: @room.super_room_id)
-    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id).page(params[:room_page])
-    @articles = Article.where(room_id: @room.id).where(is_destroyed: false).page(params[:article_page])
+    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id)
+    @articles = Article.where(room_id: @room.id).where(is_destroyed: false)
     if Room.where(super_room_id: @room.id).where(is_destroyed: false).count == 0
       @articles.each do |article|
         article.is_destroyed = true

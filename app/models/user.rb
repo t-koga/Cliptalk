@@ -5,14 +5,15 @@ class User < ApplicationRecord
   has_many :articles
   has_many :comments
 
-  has_secure_password
-  has_one_attached :avatar
-
-  validates :name, {presence: true}
-  validates :email, {presence: true, uniqueness: true}
+  # 最大100文字
+  validates :name, {presence: true, length: {maximum: 100}}
+  # 最大255文字,同グループ内で重複不可
+  validates :email, {presence: true, uniqueness: {scope: :group_id}, length: {maximum: 255}}
   validates :group_id, {presence: true}
   validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_avatar
+  has_secure_password
+  has_one_attached :avatar
 
   paginates_per 30
 
