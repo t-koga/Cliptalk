@@ -11,7 +11,7 @@
 
         <%= form_with(url: update_group_path(@current_group.url), local: true) do |form| %>
           <div class="form-group">
-            <label>グループURL<span class="small">　※[アルファベット,数字,ハイフン,アンダーバー]のみ使用できます</span></label>
+            <label>グループURL<span class="small">　※[アルファベット,数字,半角ハイフン(-),半角アンダーバー(_)]のみ使用できます</span></label>
             <div class="input-group-prepend">
               <span class="input-group-text"><%= request.host_with_port+"/groups/" %></span>
               <%= form.text_field :url, value: @group.url, class: "form-control" %>

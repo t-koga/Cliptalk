@@ -24,7 +24,6 @@ class UsersController < ApplicationController
         filename: "default_image.jpg",
         content_type: "image/jpg")
     if @user.save
-      GroupUser.create(group_id: @group.id, user_id: @user.id)
       session[:user_id] = @user.id
       session[:group_id] = @group.id
       flash[:notice] = "ユーザー登録が完了しました"
@@ -42,21 +41,14 @@ class UsersController < ApplicationController
   end
 
   def login
-    @user = User.find_by(email: params[:email])
     @group = Group.find_by(url: params[:group_url])
+    @user = User.where(group_id: @group.id).find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
       unless @user.is_destroyed
-        if GroupUser.where(group_id: @group.id).find_by(user_id: @user.id)
-          session[:user_id] = @user.id
-          session[:group_id] = @group.id
-          flash[:notice] = "ログインしました"
-          redirect_to(rooms_path)
-        else
-          @error_message = "他のグループにはログインできません"
-          @email = params[:email]
-          @password = params[:password]
-          render("users/login_form")
-        end
+        session[:user_id] = @user.id
+        session[:group_id] = @group.id
+        flash[:notice] = "ログインしました"
+        redirect_to(rooms_path)
       else
         @error_message = "そのユーザーはログイン権限がありません"
         @email = params[:email]

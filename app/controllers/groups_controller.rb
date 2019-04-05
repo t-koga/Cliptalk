@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
   def login
     @group = Group.find_by(email: params[:email], url: params[:group_url])
     if @group && @group.authenticate(params[:password])
-      if GroupUser.where(group_id: @group.id).find_by(user_id: @current_user.id)
+      if User.where(group_id: @group.id).find_by(id: @current_user.id)
         session[:manager_id] = @current_user.id
         flash[:notice] = "管理者としてログインしました"
         redirect_to(rooms_path)

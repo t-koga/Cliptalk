@@ -65,19 +65,12 @@ class RoomsController < ApplicationController
 
   def manager_change
     @room = Room.find_by(id: params[:room_id])
-    @user = User.find_by(name: params[:name], email: params[:email])
+    @user = User.where(group_id: @current_group.id).find_by(name: params[:name], email: params[:email])
     if @user
-      if GroupUser.where(group_id: @current_group.id).find_by(user_id: @user.id)
-        @room.user_id = @user.id
-        @room.save
-        flash[:notice] = "部屋の管理者を変更しました"
-        redirect_to(articles_path(@room.id))
-      else
-        @error_message = "他のグループのユーザーは管理者にできません"
-        @name = params[:name]
-        @email = params[:email]
-        render("rooms/manager_edit")
-      end
+      @room.user_id = @user.id
+      @room.save
+      flash[:notice] = "部屋の管理者を変更しました"
+      redirect_to(articles_path(@room.id))
     else
       @error_message = "名前またはメールアドレスが間違っています"
       @name = params[:name]

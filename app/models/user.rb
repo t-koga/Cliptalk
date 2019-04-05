@@ -1,9 +1,8 @@
 class User < ApplicationRecord
-  has_many :group_users
-  has_many :groups, through: :group_users
   has_many :rooms
   has_many :articles
   has_many :comments
+  belongs_to :group
 
   # 最大100文字
   validates :name, {presence: true, length: {maximum: 100}}
@@ -13,6 +12,8 @@ class User < ApplicationRecord
   validates :is_destroyed, inclusion: {in: [true, false]}
   validate :validate_avatar
   has_secure_password
+  # 最大20文字
+  validates :password, {length: {maximum: 20}}
   has_one_attached :avatar
 
   paginates_per 30
