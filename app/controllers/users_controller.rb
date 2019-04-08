@@ -92,6 +92,7 @@ class UsersController < ApplicationController
     @user.name = params[:name]
     @user.email = params[:email]
     @user.password = params[:password]
+    @user.password_confirmation = params[:password_confirmation]
     if params[:avatar]
       @user.avatar = params[:avatar]
     end

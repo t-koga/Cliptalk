@@ -7,4 +7,5 @@
     <span class="index-item-text"><%= room.name %></span>
   </div>
 <% end %>
+<%= index_display(@rooms) %>
 <%= paginate @rooms, :param_name => 'room_page', :remote => true %>

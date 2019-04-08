@@ -6,7 +6,7 @@ class Room < ApplicationRecord
   has_one_attached :icon
 
   # 最大100文字,同部屋内で重複不可
-  validates :name, {presence: true, uniqueness: {scope: :super_room_id}, length: {maximum: 100}}
+  validates :name, {presence: true, uniqueness: {scope: [:super_room_id, :group_id]}, length: {maximum: 100}}
   validates :user_id, {presence: true}
   validates :super_room_id, {presence: true}
   validates :group_id, {presence: true}

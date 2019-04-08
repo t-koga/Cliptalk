@@ -4,7 +4,7 @@
       <div class="edit-menu user-edit-menu col-lg-2 mb-3">
         <% if @user.id == @current_user.id %>
           <div class="user-edit-link"><%= link_to("編集", edit_user_path(@current_user.id)) %></div>
-        <% elsif @current_manager %>
+        <% elsif @current_manager && @user.is_destroyed == false %>
           <div class="user-destroy-link"><%= link_to("ユーザー削除", destroy_user_path(@user.id), method: :post, data: {confirm: "#{@user.name}をゴミ箱に移動します。あなたがこのユーザーの部屋の管理者になります。"}) %></div>
         <% end %>
       </div>

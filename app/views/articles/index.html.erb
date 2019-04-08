@@ -6,7 +6,7 @@
         <div class="edit-menu">
           <% unless @room.is_destroyed %>
             <div class="room-edit-link inline-block"><%= link_to("部屋編集", edit_room_path(@room.id)) if @room.user.id == @current_user.id %></div>
-            <div class="room-destroy-link inline-block"> <%= link_to("部屋削除", destroy_room_path(@room.id), method: :post, data: {confirm: "部屋をゴミ箱に移動します。部屋のクリップも全て削除されます。"}) if @room.user.id == @current_user.id || @current_manager %></div>
+            <div class="room-destroy-link inline-block"> <%= link_to("部屋削除", destroy_room_path(@room.id), method: :post, data: {confirm: "部屋をゴミ箱に移動します。部屋のクリップも全て削除されます。\n　※小部屋がある部屋は削除できません"}) if @room.user.id == @current_user.id || @current_manager %></div>
             <div class="childroom-create-link inline-block"><%= link_to("小部屋を作る", new_room_path) %></div>
             <div class="article-create-link inline-block"><%= link_to("クリップ作成", new_article_path) %></div>
           <% end %>
@@ -32,11 +32,11 @@
 
     <div class="row">
       <div class="index-list articles-index-list col-lg-8 offset-lg-2">
-        <%= render :partial => "articles" %>
+        <%= render :partial => "articles/articles" %>
       </div>
 
       <div class="index-list-mini rooms-index-list col-lg-2 mt-2">
-        <%= render :partial => "rooms" %>
+        <%= render :partial => "articles/rooms" %>
       </div>
     </div>
 

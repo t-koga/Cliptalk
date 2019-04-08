@@ -82,8 +82,8 @@ class RoomsController < ApplicationController
   def destroy
     @room = Room.find_by(id: params[:room_id])
     @super_room = Room.find_by(id: @room.super_room_id)
-    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id)
-    @articles = Article.where(room_id: @room.id).where(is_destroyed: false)
+    @rooms = Room.where(is_destroyed: false).where(super_room_id: @room.id).page(params[:room_page])
+    @articles = Article.where(room_id: @room.id).where(is_destroyed: false).order(id: :desc).page(params[:article_page])
     if Room.where(super_room_id: @room.id).where(is_destroyed: false).count == 0
       @articles.each do |article|
         article.is_destroyed = true
@@ -94,7 +94,7 @@ class RoomsController < ApplicationController
       flash[:notice] = "部屋を削除しました"
       redirect_to(rooms_path)
     else
-      @error_message = "小部屋がある部屋は削除できません"
+      flash.now[:alert] = "小部屋がある部屋は削除できません"
       render("articles/index")
     end
   end
