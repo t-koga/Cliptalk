@@ -15,6 +15,10 @@ class Room < ApplicationRecord
 
   paginates_per 30
 
+  def thumbnail_mini
+    self.icon.variant(resize: "25x25").processed
+  end
+
   def thumbnail_small
     self.icon.variant(resize: "50x50").processed
   end

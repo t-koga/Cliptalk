@@ -1,10 +1,11 @@
 <% @rooms.each do |room| %>
   <div class="index-item-mini rooms-index-item">
     <% if room.icon.attached? %>
-      <%= image_tag room.thumbnail_small %>
+      <%= image_tag room.thumbnail_mini %>
     <% end %>
     <%= link_to(room.name, articles_path(room.id)) %>
     <span class="index-item-text-mini"><%= room.name %></span>
   </div>
 <% end %>
+<%= index_display(@rooms) %>
 <%= paginate @rooms, :param_name => 'room_page', :remote => true, window: 0 %>

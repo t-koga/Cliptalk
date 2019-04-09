@@ -28,7 +28,7 @@
               <%= link_to("変更", status_article_path(params[:room_id], params[:article_id]), method: :post) if @article.user.id == @current_user.id && @article.is_destroyed == false %>
             <% end %>
           </div>
-          <div class="article-update-time"><%= @article.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div><hr>
+          <div class="article-created-time"><%= @article.created_at.strftime("%Y-%m-%d %H:%M:%S") %></div><hr>
           <div class="article-content"><%= raw(nl2br(@article.content)) %></div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <div class="comments-index-item">
             <%= "#{i+1}." %>
             <% if comment.user.avatar.attached? %>
-              <%= image_tag comment.user.thumbnail_small %>
+              <%= image_tag comment.user.thumbnail_mini %>
             <% end %>
             <span class="index-item-text"><%= comment.user.name %></span>
             <div class="comment-content my-2"><%= raw(nl2br(comment.content)) %></div>

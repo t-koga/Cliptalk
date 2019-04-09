@@ -67,10 +67,17 @@ class RoomsController < ApplicationController
     @room = Room.find_by(id: params[:room_id])
     @user = User.where(group_id: @current_group.id).find_by(name: params[:name], email: params[:email])
     if @user
-      @room.user_id = @user.id
-      @room.save
-      flash[:notice] = "部屋の管理者を変更しました"
-      redirect_to(articles_path(@room.id))
+      unless @user.is_destroyed
+        @room.user_id = @user.id
+        @room.save
+        flash[:notice] = "部屋の管理者を変更しました"
+        redirect_to(articles_path(@room.id))
+      else
+        @error_message = "削除されているユーザーは管理者に変更できません"
+        @name = params[:name]
+        @email = params[:email]
+        render("rooms/manager_edit")
+      end
     else
       @error_message = "名前またはメールアドレスが間違っています"
       @name = params[:name]
