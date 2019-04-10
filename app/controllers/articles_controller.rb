@@ -58,10 +58,12 @@ class ArticlesController < ApplicationController
 
   def edit
     @article = Article.find_by(id: params[:article_id])
+    @article_title = @article.title
   end
 
   def update
     @article = Article.find_by(id: params[:article_id])
+    @article_title = @article.title
     @article.title = params[:title]
     @article.content = params[:content]
     if @article.save

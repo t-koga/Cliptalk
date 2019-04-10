@@ -76,6 +76,7 @@ class GroupsController < ApplicationController
     @group.name = params[:name]
     @group.email = params[:email]
     @group.password = params[:password]
+    @group.password_confirmation = params[:password_confirmation]
     if @group.save
       flash[:notice] = "グループ情報を更新しました"
       redirect_to(rooms_path)

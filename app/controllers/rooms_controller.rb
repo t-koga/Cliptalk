@@ -44,10 +44,12 @@ class RoomsController < ApplicationController
 
   def edit
     @room = Room.find_by(id: params[:room_id])
+    @room_name = @room.name
   end
 
   def update
     @room = Room.find_by(id: params[:room_id])
+    @room_name = @room.name
     @room.name = params[:name]
     if params[:icon]
       @room.icon = params[:icon]

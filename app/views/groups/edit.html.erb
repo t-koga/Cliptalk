@@ -26,8 +26,12 @@
             <%= form.text_field :email, value: @group.email, class: "form-control" %>
           </div>
           <div class="form-group">
-            <label>パスワード</label>
+            <label>パスワード<span class="small">　※未入力のまま「更新」をクリックした場合、パスワードは変更されません。</span></label>
             <%= form.password_field :password, class: "form-control" %>
+          </div>
+          <div class="form-group">
+            <label>パスワード再入力</label>
+            <%= form.password_field :password_confirmation, class: "form-control" %>
           </div>
           <%= form.submit value: "更新" %>
         <% end %>
