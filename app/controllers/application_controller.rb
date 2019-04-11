@@ -21,8 +21,8 @@ class ApplicationController < ActionController::Base
   # 非ログインユーザーがログイン後の画面に直接リンクした際、ログインページに強制遷移
   def authenticate_user
     if @current_user == nil
-      flash[:notice] = "ログインが必要です"
-      redirect_to(login_form_path)
+      flash[:alert] = "ログインが必要です"
+      redirect_to(top_path)
     end
   end
 
