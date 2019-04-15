@@ -3,7 +3,8 @@ module ApplicationHelper
     h(str).gsub(/\R/, "<br>")
   end
 
-  def index_display(models)
+  def index_display(models, param_name = "page")
+    page = models.page(params[param_name])
     unit =
       case models
       when @rooms
@@ -16,7 +17,7 @@ module ApplicationHelper
         "件"
       end
     unless models.total_count == 0
-      "#{models.page(params[:page]).offset_value + 1} - #{models.total_count - models.page(params[:page]).offset_value} / #{models.total_count}#{unit}中"
+      "#{page.offset_value+1} - #{(page.current_page-1) * page.limit_value + page.size} / #{models.total_count}#{unit}中"
     end
   end
 end

@@ -18,7 +18,7 @@
           <% elsif params[:group_url] %>
             <%= link_to(@group.name, top_group_path, {:class => "nav-link"}) %>
           <% else %>
-            <%= link_to("Clip Talk", top_path, {:class => "nav-link font-weight-bold"}) %>
+            <%= link_to("Clip Talk(β)", top_path, {:class => "nav-link font-weight-bold"}) %> <%# 正式リリース後(β)をはずす %>
           <% end %>
         </div>
         <ul class="navbar-nav p-0 mt-1 mt-lg-0">

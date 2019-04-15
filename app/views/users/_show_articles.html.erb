@@ -12,5 +12,5 @@
     <%= article.updated_at.strftime("%Y-%m-%d %H:%M:%S") %>
   </div>
 <% end %>
-<%= index_display(@articles) %>
+<%= index_display(@articles, "article_page") %>
 <%= paginate @articles, :param_name => 'article_page', :remote => true %>
