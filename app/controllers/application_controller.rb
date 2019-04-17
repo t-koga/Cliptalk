@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   # ログイン済みユーザーがログイン前の画面に直接リンクした際、部屋一覧画面に強制遷移
   def forbid_login_user
     if @current_user
-      flash[:notice] = "すでにログインしています"
+      flash[:alert] = "すでにログインしています"
       redirect_to(rooms_path)
     end
   end
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   # 非管理者ユーザーが管理者専用画面に直接リンクした際、部屋一覧画面に強制遷移
   def authenticate_manager
     if @current_manager == nil
-      flash[:notice] = "管理者ログインが必要です"
+      flash[:alert] = "管理者ログインが必要です"
       redirect_to(rooms_path)
     end
   end
@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   # 管理者ユーザーが管理者になる前の画面に直接リンクした際、部屋一覧画面に強制遷移
   def forbid_login_manager
     if @current_manager
-      flash[:notice] = "すでに管理者としてログインしています"
+      flash[:alert] = "すでに管理者としてログインしています"
       redirect_to(rooms_path)
     end
   end

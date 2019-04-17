@@ -3,8 +3,9 @@ module ApplicationHelper
     h(str).gsub(/\R/, "<br>")
   end
 
-  def index_display(models, param_name = "page")
+  def index_display(models, param_name = "page", per = nil)
     page = models.page(params[param_name])
+    page = page.per(per) if per
     unit =
       case models
       when @rooms

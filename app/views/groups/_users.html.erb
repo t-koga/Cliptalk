@@ -7,5 +7,5 @@
     <span class="index-item-text"><%= user.name %></span>
   </div>
 <% end %>
-<%= index_display(@users, "user_page") %>
+<%= index_display(@users, "user_page", 50) %>
 <%= paginate @users, :param_name => 'user_page', :remote => true %>

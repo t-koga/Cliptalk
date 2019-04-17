@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user
   before_action :ensure_correct_group
+  before_action :ensure_destroyed_room, {only: [:new, :create]}
   before_action :ensure_correct_writer, {only: [:status, :edit, :update]}
   before_action :ensure_destroyed_article, {only: [:status, :edit, :update]}
 
@@ -82,11 +83,20 @@ class ArticlesController < ApplicationController
     redirect_to(articles_path(params[:room_id]))
   end
 
+
+  # 削除された部屋の編集を制限
+  def ensure_destroyed_room
+    if Room.find_by(id: params[:room_id].to_i).is_destroyed
+      flash[:alert] = "削除された部屋では、クリップを作成できません"
+      redirect_to(rooms_path)
+    end
+  end
+
   # 記事作成者以外の編集を制限
   def ensure_correct_writer
     @article = Article.find_by(id: params[:article_id])
     unless @current_user.id == @article.user_id
-      flash[:notice] = "クリップ作成者以外の編集はできません"
+      flash[:alert] = "クリップ作成者以外は編集できません"
       redirect_to(show_article_path(params[:room_id], params[:article_id]))
     end
   end
@@ -94,7 +104,7 @@ class ArticlesController < ApplicationController
   # 削除された記事の編集を制限
   def ensure_destroyed_article
     if Article.find_by(id: params[:article_id]).is_destroyed
-      flash[:notice] = "削除された記事は編集できません"
+      flash[:alert] = "削除されたクリップは編集できません"
       redirect_to(show_article_path(params[:room_id], params[:article_id]))
     end
   end
@@ -102,7 +112,7 @@ class ArticlesController < ApplicationController
   # 他グループのURLを制限
   def ensure_correct_group
     unless @current_group.id == Room.find_by(id: params[:room_id].to_i).group_id
-      flash[:notice] = "他のグループの情報は閲覧できません"
+      flash[:alert] = "このページにはアクセスできません"
       redirect_to(rooms_path)
     end
   end
