@@ -43,5 +43,7 @@ Rails.application.routes.draw do
 
   post "/rooms/:room_id/articles/:article_id/comments" => "comments#create", as: "create_comment"
 
+  root "home#index"
+
 
 end
