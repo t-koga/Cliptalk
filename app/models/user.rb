@@ -31,11 +31,12 @@ class User < ApplicationRecord
   end
 
   def validate_avatar
-    if avatar.blob.byte_size > 100.kilobytes
-      avatar.purge
+    return unless self.avatar.attached?
+    if self.avatar.blob.byte_size > 100.kilobytes
+      self.avatar.purge_later
       errors.add(:avatar, "のファイル容量が大きすぎます")
     elsif !image?
-      avatar.purge
+      self.avatar.purge_later
       errors.add(:avatar, "はjpg, jpeg, gif, pngのいずれかを選択してください")
     end
   end

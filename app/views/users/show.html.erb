@@ -10,7 +10,9 @@
       </div>
       <div class="head-row-center col-lg-8">
         <div class="user-avatar">
-          <%= image_tag @user.thumbnail_large %>
+          <% if @user.avatar.attached? %>
+            <%= image_tag @user.thumbnail_large %>
+          <% end %>
         </div>
         <div class="user-name h3 mt-2"><%= @user.name %></div>
         <div class="user-email h5"><%= @user.email %></div>

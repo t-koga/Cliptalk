@@ -82,3 +82,5 @@ gem 'active_storage_validations'
 
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
+
+gem "aws-sdk-s3", require: false

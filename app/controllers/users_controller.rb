@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     @user.password = params[:password]
     @user.password_confirmation = params[:password_confirmation]
     if params[:avatar]
-      @user.avatar = params[:avatar]
+      @user.avatar.attach(params[:avatar])
     end
     if @user.save
       flash[:notice] = "ユーザー情報を更新しました"
