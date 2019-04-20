@@ -2,9 +2,10 @@
   <div class="container">
     <div class="form-heading">
       <% if params[:room_id] != "0" %>
-        <% if @super_room.icon.attached? %>
-          <%= image_tag @super_room.thumbnail_small %>
-        <% end %>
+        <%# 画像機能見送り%>
+        <%# if @super_room.icon.attached? %>
+          <%#= image_tag @super_room.thumbnail_small %>
+        <%# end %>
         <%= link_to(@super_room.name, articles_path(@super_room.id)) %> > 
       <% end %>
       部屋作成

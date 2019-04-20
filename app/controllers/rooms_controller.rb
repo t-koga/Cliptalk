@@ -24,10 +24,11 @@ class RoomsController < ApplicationController
       super_room_id: params[:room_id],
       group_id: @current_group.id,
       is_destroyed: false)
-    @room.icon.attach(
-      io: File.open(Rails.root.join("storage/default_room_image.jpg")),
-      filename: "default_room_image.jpg",
-      content_type: "image/jpg")
+    # 画像機能見送り
+    # @room.icon.attach(
+    #   io: File.open(Rails.root.join("storage/default_room_image.jpg")),
+    #   filename: "default_room_image.jpg",
+    #   content_type: "image/jpg")
     if @room.save
       flash[:notice] = "新しい部屋を作成しました"
       if @room.super_room_id == 0
@@ -51,9 +52,10 @@ class RoomsController < ApplicationController
     @room = Room.find_by(id: params[:room_id])
     @room_name = @room.name
     @room.name = params[:name]
-    if params[:icon]
-      @room.icon = params[:icon]
-    end
+    # 画像機能見送り
+    # if params[:icon]
+    #   @room.icon = params[:icon]
+    # end
     if @room.save
       flash[:notice] = "部屋情報を更新しました"
       redirect_to(articles_path(@room.id))

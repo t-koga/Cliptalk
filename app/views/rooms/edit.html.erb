@@ -1,9 +1,10 @@
 <div class="main rooms-edit">
   <div class="container">
     <div class="form-heading">
-      <% if @room.icon.attached? %>
-        <%= image_tag @room.thumbnail_small %>
-      <% end %>
+      <%# 画像機能見送り%>
+      <%# if @room.icon.attached? %>
+        <%#= image_tag @room.thumbnail_small %>
+      <%# end %>
       <%= link_to(@room_name, articles_path(@room.id)) %> > 
       部屋編集
     </div>
@@ -16,11 +17,13 @@
         <% end %>
 
         <%= form_with(url: update_room_path(@room.id), local: true) do |form| %>
+          <% if false %> <%# 画像機能見送り%>
           <div class="form-group">
             <label>アイコン<span class="small">　※ファイル形式：( jpg, jpeg, png, gif )　 サイズ制限：100KB</span></label>
             <div class="my-2"><%= image_tag @room.thumbnail_large %></div>
             <%= form.file_field :icon, class: "form-control-file", accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "iconChange(this)" %>
           </div>
+          <% end %> <%# 画像機能見送り%>
           <div class="form-group">
             <label>部屋名</label>
             <%= form.text_field :name, value: @room.name, class: "form-control" %>

@@ -10,15 +10,17 @@
         <% end %>
 
         <%= form_with(url: update_user_path(@current_user.id), local: true) do |form| %>
-          <div class="form-group">
-            <label>アイコン<span class="small">　※ファイル形式：( jpg, jpeg, png, gif )　 サイズ制限：100KB</span></label>
-            <div class="my-2">
-              <% if @current_user.avatar.attached? %>
-                <%= image_tag @current_user.thumbnail_large %>
-              <% end %>
+          <% if false %> <%# 画像機能見送り %>
+            <div class="form-group">
+              <label>アイコン<span class="small">　※ファイル形式：( jpg, jpeg, png, gif )　 サイズ制限：100KB</span></label>
+              <div class="my-2">
+                <% if @current_user.avatar.attached? %>
+                  <%= image_tag @current_user.thumbnail_large %>
+                <% end %>
+              </div>
+              <%= form.file_field :avatar, class: "form-control-file", accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "avatarChange(this)" %>
             </div>
-            <%= form.file_field :avatar, class: "form-control-file", accept: "image/jpg, image/jpeg, image/png, image/gif", onchange: "avatarChange(this)" %>
-          </div>
+          <% end %> <%# 画像機能見送り %>
           <div class="form-group">
             <label>名前</label>
             <%= form.text_field :name, value: @user.name, class: "form-control" %>

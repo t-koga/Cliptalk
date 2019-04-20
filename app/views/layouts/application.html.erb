@@ -24,9 +24,10 @@
         <ul class="navbar-nav p-0 mt-1 mt-lg-0">
           <% if @current_user %>
             <li class="nav-item user-name">
-              <% if @current_user.avatar.attached? %>
-                <%= image_tag @current_user.thumbnail_small, {:class => "float-left"} %>
-              <% end %>
+              <%# 画像機能見送り%>
+              <%# if @current_user.avatar.attached? %>
+                <%#= image_tag @current_user.thumbnail_small, {:class => "float-left"} %>
+              <%# end %>
               <%= link_to(@current_user.name, show_user_path(@current_user.id), {:class => "nav-link float-right"}) %>
             </li>
             <li class="nav-item"><%= link_to("ユーザー", users_path, {:class => "nav-link"}) %></li>

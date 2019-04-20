@@ -19,10 +19,11 @@ class UsersController < ApplicationController
       password_confirmation: params[:password_confirmation],
       group_id: @group.id,
       is_destroyed: false)
-      @user.avatar.attach(
-        io: File.open(Rails.root.join("storage/default_image.jpg")),
-        filename: "default_image.jpg",
-        content_type: "image/jpg")
+      # 画像機能見送り
+      # @user.avatar.attach(
+      #   io: File.open(Rails.root.join("storage/default_image.jpg")),
+      #   filename: "default_image.jpg",
+      #   content_type: "image/jpg")
     if @user.save
       session[:user_id] = @user.id
       session[:group_id] = @group.id
@@ -93,9 +94,10 @@ class UsersController < ApplicationController
     @user.email = params[:email]
     @user.password = params[:password]
     @user.password_confirmation = params[:password_confirmation]
-    if params[:avatar]
-      @user.avatar.attach(params[:avatar])
-    end
+    # 画像機能見送り
+    # if params[:avatar]
+    #   @user.avatar.attach(params[:avatar])
+    # end
     if @user.save
       flash[:notice] = "ユーザー情報を更新しました"
       redirect_to(show_user_path(@current_user.id))
