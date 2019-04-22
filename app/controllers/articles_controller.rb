@@ -1,6 +1,9 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user
+  before_action :restrict_no_exist_room
+  before_action :restrict_no_exist_article, {only: [:show, :status, :edit, :update, :destroy]}
   before_action :ensure_correct_group
+  before_action :ensure_correct_room, {only: [:show, :status, :edit, :update, :destroy]}
   before_action :ensure_destroyed_room, {only: [:new, :create]}
   before_action :ensure_correct_writer, {only: [:status, :edit, :update]}
   before_action :ensure_destroyed_article, {only: [:status, :edit, :update]}
@@ -109,6 +112,30 @@ class ArticlesController < ApplicationController
     end
   end
 
+  # 他部屋のURLを制限
+  def ensure_correct_room
+    unless params[:room_id].to_i == Article.find_by(id: params[:article_id].to_i).room_id
+      flash[:alert] = "部屋とクリップが一致しません"
+      redirect_to(rooms_path)
+    end
+  end
+
+  # 存在しない部屋のURLを制限
+  def restrict_no_exist_room
+    unless Room.find_by(id: params[:room_id])
+      flash[:alert] = "このページにはアクセスできません"
+      redirect_to(rooms_path)
+    end
+  end
+
+  # 存在しない記事のURLを制限
+  def restrict_no_exist_article
+    unless Article.find_by(id: params[:article_id])
+      flash[:alert] = "このページにはアクセスできません"
+      redirect_to(rooms_path)
+    end
+  end
+
   # 他グループのURLを制限
   def ensure_correct_group
     unless @current_group.id == Room.find_by(id: params[:room_id].to_i).group_id
@@ -116,4 +143,5 @@ class ArticlesController < ApplicationController
       redirect_to(rooms_path)
     end
   end
+
 end

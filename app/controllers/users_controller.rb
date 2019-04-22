@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, {only: [:logout, :index, :show, :edit]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
-  before_action :ensure_correct_group, {only: [:edit, :update, :show]}
+  before_action :restrict_no_exist_group, {only: [:new, :create, :login_form, :login]}
+  before_action :restrict_no_exist_user, {only: [:show, :edit, :update, :destroy]}
+  before_action :ensure_correct_group, {only: [:show, :edit, :update, :destroy]}
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
   # ログイン前のアクション(forbid_login_user)---
@@ -134,6 +136,22 @@ class UsersController < ApplicationController
     unless @current_user.id == params[:user_id].to_i
       flash[:alert] = "他のユーザーの編集はできません"
       redirect_to(show_user_path(@current_user.id))
+    end
+  end
+
+  # 存在しないグループのURLを制限
+  def restrict_no_exist_group
+    unless Group.find_by(url: params[:group_url])
+      flash[:alert] = "そのグループは存在しません"
+      redirect_to(top_path)
+    end
+  end
+
+  # 存在しないユーザーのURLを制限
+  def restrict_no_exist_user
+    unless User.find_by(id: params[:user_id])
+      flash[:alert] = "このページにはアクセスできません"
+      redirect_to(rooms_path)
     end
   end
 

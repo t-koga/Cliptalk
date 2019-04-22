@@ -1,6 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user, {only: [:login_form, :login, :garbage, :edit, :update, :logout]}
   before_action :forbid_login_user, {only: [:new, :create]}
+  before_action :restrict_no_exist_group, {only: [:login_form, :login, :garbage, :edit, :update, :logout]}
   before_action :ensure_correct_group, {only: [:login_form, :login, :garbage, :edit, :update, :logout]}
   before_action :authenticate_manager, {only: [:edit, :update, :logout]}
   before_action :forbid_login_manager, {only: [:login_form, :login]}
@@ -91,6 +92,14 @@ class GroupsController < ApplicationController
     redirect_to(rooms_path)
   end
 
+  # 存在しないグループのURLを制限
+  def restrict_no_exist_group
+    unless Group.find_by(url: params[:group_url])
+      flash[:alert] = "このページにはアクセスできません"
+      redirect_to(rooms_path)
+    end
+  end
+
   # 他グループのURLを制限
   def ensure_correct_group
     unless @current_group.id == Group.find_by(url: params[:group_url]).id
@@ -98,5 +107,4 @@ class GroupsController < ApplicationController
       redirect_to(rooms_path)
     end
   end
-
 end

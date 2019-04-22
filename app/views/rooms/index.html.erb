@@ -1,11 +1,14 @@
 <div class="main rooms-index">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row mb-3">
       <div class="room-create-link col-lg-2 mb-3">
         <%= link_to("部屋を作る", new_room_path("0")) %>
       </div>
+      <div class="list-heading col-lg-8">部屋一覧</div>
+    </div>
 
-      <div class="index-list rooms-index-list col-lg-8">
+    <div class="row">
+      <div class="index-list rooms-index-list col-lg-8 offset-lg-2">
         <%= render :partial => "rooms" %>
       </div>
     </div>

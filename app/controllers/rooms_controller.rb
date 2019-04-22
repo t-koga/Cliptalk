@@ -1,5 +1,6 @@
 class RoomsController < ApplicationController
   before_action :authenticate_user
+  before_action :restrict_no_exist_room, {except: [:index]}
   before_action :ensure_correct_group, {except: [:index]}
   before_action :ensure_correct_manager, {only: [:edit, :update, :manager_edit, :manager_change]}
   before_action :ensure_destroyed_room, {only: [:new, :create, :edit, :update, :manager_edit, :manager_change]}
@@ -124,6 +125,16 @@ class RoomsController < ApplicationController
     unless params[:room_id] == "0"
       if Room.find_by(id: params[:room_id].to_i).is_destroyed
         flash[:alert] = "削除された部屋は編集できません"
+        redirect_to(rooms_path)
+      end
+    end
+  end
+
+  # 存在しない部屋のURLを制限
+  def restrict_no_exist_room
+    unless params[:room_id] == "0"
+      unless Room.find_by(id: params[:room_id])
+        flash[:alert] = "このページにはアクセスできません"
         redirect_to(rooms_path)
       end
     end
