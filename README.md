@@ -6,23 +6,6 @@
 ![部屋一覧](https://user-images.githubusercontent.com/10862638/56632490-f6018b00-6694-11e9-9631-071bb8998fa0.jpg)
 ![クリップサンプル](https://user-images.githubusercontent.com/10862638/56632496-fd289900-6694-11e9-8fb7-10819fec470a.jpg)
 
-## サンプルグループURL
-
-「Clip Talk」はめんどくさい設定が必要なく、  
-ITに不慣れな組織・団体様でも活用できるサービスを目指しております。
-
-以下は「Clip Talk」が活用されるシーンを想定したサンプルグループURLとなります。  
-ご参考までにお目通しください。  
-<https://cliptalk.herokuapp.com/groups/model_circle>
-<https://cliptalk.herokuapp.com/groups/model_class>
-<https://cliptalk.herokuapp.com/groups/model_business>
-
-※以下のゲスト用ユーザー、または新規にユーザーをご登録いただき、  
-ログインしてください。
-
-メールアドレス：guest@mail  
-パスワード：guest
-
 ## 開発に使用した技術
 
 - バックエンド　Ruby(2.6.2)  
@@ -46,26 +29,32 @@ ITに不慣れな組織・団体様でも活用できるサービスを目指し
 ### 1. グループ登録
 
 「グループ登録」をクリック
-* 画像
+
+![グループ登録](https://user-images.githubusercontent.com/10862638/56633037-74f7c300-6697-11e9-8488-2d334597ded0.jpg)
 
 各項目を入力してください
-* 画像
+
+![新規グループ登録](https://user-images.githubusercontent.com/10862638/56633292-78d81500-6698-11e9-8753-18d9b4916818.jpg)
 
 グループ登録完了です  
 この画面のグループURLを、参加させたい人に送信してください。
-* 画像
+
+![グループ作成完了](https://user-images.githubusercontent.com/10862638/56633509-6ad6c400-6699-11e9-9f06-c953df3da05a.jpg)
 
 ### 2. ユーザー登録
 
 「ユーザー登録」をクリック
-* 画像
+
+![ユーザー登録](https://user-images.githubusercontent.com/10862638/56633931-16344880-669b-11e9-8a53-7d9db0aacbb7.jpg)
 
 各項目を入力してください
-* 画像
+
+![新規ユーザー登録](https://user-images.githubusercontent.com/10862638/56634178-f6e9eb00-669b-11e9-88b9-6c73bc90e32b.jpg)
 
 ユーザー登録完了です  
 これで、「Clip Talk」を使う準備が終わりました！
-* 画像
+
+![ユーザー作成完了](https://user-images.githubusercontent.com/10862638/56634201-12ed8c80-669c-11e9-9a6c-5834ed6447cf.jpg)
 
 ### 3. 部屋機能
 
@@ -140,4 +129,20 @@ ITに不慣れな組織・団体様でも活用できるサービスを目指し
 また、不要になったユーザー、部屋、クリップを削除することができます。  
   * 管理者ログインには、グループ登録時のメールアドレス、パスワードが必要です。
 
+## サンプルグループURL
+
+「Clip Talk」はめんどくさい設定が必要なく、  
+ITに不慣れな組織・団体様でも活用できるサービスを目指しております。
+
+以下は「Clip Talk」が活用されるシーンを想定したサンプルグループURLとなります。  
+ご参考までにお目通しください。  
+<https://cliptalk.herokuapp.com/groups/model_circle>
+<https://cliptalk.herokuapp.com/groups/model_class>
+<https://cliptalk.herokuapp.com/groups/model_business>
+
+※以下のゲスト用ユーザー、または新規にユーザーをご登録いただき、  
+ログインしてください。
+
+メールアドレス：guest@mail  
+パスワード：guest
 
