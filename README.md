@@ -8,21 +8,69 @@
 
 ## 開発に使用した技術
 
-- バックエンド　Ruby(2.6.2)  
-- フロントエンド　sass
-- フレームワーク　Ruby on Rails(5.2.2)  
-- データベース　sqlite3(development), PostgreSQL(production)  
-- バージョン管理　git  
-- サーバー　heroku
+- バックエンド　Ruby/2.6.2
+- フロントエンド　JavaScript, sass/3.7.3
+- フレームワーク　Ruby on Rails/5.2.2
+- データベース　sqlite3/3.6.20 (development), PostgreSQL/11.2 (production)
+- バージョン管理　git/1.7.1
+- サーバー　heroku/7.22.9
 - Gem  
-  - フロントエンドフレームワーク　Bootstrap(4.3.1)  
-  - ページネーション　kaminari
-  - パスワード暗号化　bcrypt
+  - フロントエンドフレームワーク　Bootstrap/4.3.1
+  - ページネーション　kaminari/1.1.1
+  - パスワード暗号化　bcrypt/3.1.12
 - エディタ　VSCode
 - ターミナル　PowerShell
-- ローカル開発環境　Vagrant, VirtualBox  
+- ローカル開発環境　Vagrant, VirtualBox
 - SSHクライアント　PuTTy
 - FTP　Cyberduck, sftp(VSCodeの拡張機能)
+
+## 機能一覧
+
+- グループ機能
+  - グループ登録機能
+    - グループURL作成機能
+    - パスワード暗号化機能(bcrypt)
+  - グループ管理者機能
+    - 管理者ログイン機能
+    - グループ編集機能
+    - ユーザー、部屋、クリップ削除機能
+  - ゴミ箱機能(削除されたデータを一覧表示)
+    - ページネーション機能(kaminari)
+    - タブによるリスト表示切替機能(Bootstrap, JavaScript)
+- ユーザー機能
+  - ユーザー登録機能
+    - パスワード暗号化機能(bcrypt)
+  - ユーザーログイン機能
+  - ユーザー一覧表示機能
+    - ページネーション機能(kaminari)
+  - ユーザー詳細表示機能
+    - タブによるリスト表示切替機能(Bootstrap, JavaScript)
+  - ユーザー編集機能
+    - 他ユーザーの編集禁止機能
+- 部屋機能
+  - 部屋作成機能
+  - 小部屋作成機能
+  - 部屋、小部屋一覧表示機能
+    - ページネーション機能(kaminari)
+  - 部屋管理者機能
+    - 部屋編集機能
+    - 部屋削除機能
+    - 部屋管理者変更機能
+- クリップ(タスク)機能
+  - クリップ作成機能
+  - クリップ一覧表示機能
+    - ページネーション機能(kaminari)
+  - クリップ詳細表示機能
+    - トーク作成機能
+    - トーク一覧表示機能
+  - クリップ作成者機能
+    - クリップ編集機能
+    - クリップ削除機能
+    - クリップのステータス変更機能
+- その他
+  - 未ログインユーザーのアクセス禁止対応
+  - 他のグループ画面へのアクセス禁止対応
+  - レスポンシブデザイン対応
 
 ## 使い方
 
@@ -63,24 +111,29 @@
 タスクのテーマごとに部屋を作ったり、  
 あるいはグループ内のチームごとに部屋を作ったり、  
 用途に合わせて部屋を作って、円滑なタスク共有を実現できます。
-* 画像
-* 画像
+
+![部屋サンプル１](https://user-images.githubusercontent.com/10862638/56635471-b771cd80-66a0-11e9-8e3d-147a5bda86d4.jpg)
+![部屋サンプル２](https://user-images.githubusercontent.com/10862638/56636140-cfe2e780-66a2-11e9-82ba-7bdac81f54a2.jpg)
 
 「部屋を作る」をクリック
-* 画像
+
+![新規部屋作成](https://user-images.githubusercontent.com/10862638/56637000-7d56fa80-66a5-11e9-8f51-129e428f89c2.jpg)
 
 部屋の名前を決める
-* 画像
+
+![部屋作成画面](https://user-images.githubusercontent.com/10862638/56637130-d6bf2980-66a5-11e9-8f67-659a46e7d70e.jpg)
 
 部屋が作られます
-* 画像
+
+![部屋作成完了](https://user-images.githubusercontent.com/10862638/56637205-05d59b00-66a6-11e9-8bae-e12fc4081fc5.jpg)
 
 部屋の中に **小部屋** を作成することもできます。  
 フォルダのように階層的に部屋を組み立てることが可能ですので、  
 大規模なグループの場合、組織の階層ごとに部屋を作成することもできますし、  
 大型プロジェクトの場合、ラインごとに小部屋を作るといった工夫ができます。
-* 画像
-* 画像
+
+![小部屋サンプル１](https://user-images.githubusercontent.com/10862638/56642043-9665a880-66b1-11e9-875b-85560a370fa7.jpg)
+![小部屋サンプル２](https://user-images.githubusercontent.com/10862638/56642744-16404280-66b3-11e9-9cac-f0ac6383c3f3.jpg)
 
 ### 4. クリップ機能
 
@@ -89,28 +142,34 @@
 会議のホワイトボードに書き留められた議題、あるいはブラッシュアップされたアイデアを付箋で留める様になぞらえ、 **クリップ** と呼んでいます。  
 クリップされたタスクには、グループメンバーがコメントすることができます。  
 このコメント機能を **トーク** と呼びます。
-* 画像
-* 画像
+
+![クリップサンプル１](https://user-images.githubusercontent.com/10862638/56643146-007f4d00-66b4-11e9-81b7-4f3ddfd08958.jpg)
+![クリップサンプル２](https://user-images.githubusercontent.com/10862638/56645132-0aa34a80-66b8-11e9-8f5e-f2b4fdba5eaa.jpg)
 
 「クリップ作成」をクリック
-* 画像
+
+![新規クリップ作成](https://user-images.githubusercontent.com/10862638/56645407-96b57200-66b8-11e9-86ed-eb56aab39310.jpg)
 
 クリップのタイトルと内容を作成します
-* 画像
+
+![クリップ作成画面](https://user-images.githubusercontent.com/10862638/56645545-dc723a80-66b8-11e9-9e75-bf146ab9b84b.jpg)
 
 クリップが作られます
-* 画像
+
+![クリップ作成完了](https://user-images.githubusercontent.com/10862638/56645706-265b2080-66b9-11e9-8ff7-d73a137d8424.jpg)
+![クリップ詳細](https://user-images.githubusercontent.com/10862638/56645977-9ff30e80-66b9-11e9-8665-6c19341dfc25.jpg)
 
 トークフォームからトークを作成できます
-* 画像
-* 画像
+
+![トークサンプル１](https://user-images.githubusercontent.com/10862638/56646287-3b847f00-66ba-11e9-80e1-91d0e1391b3c.jpg)
+![トークサンプル２](https://user-images.githubusercontent.com/10862638/56646415-7be3fd00-66ba-11e9-9b2d-86a305d3dbdc.jpg)
 
 クリップの状況を **ステータス** で確認できます。  
 解決していないクリップは、ステータスを<font color="Red">進行中</font>に、  
 解決したらクリップのステータスを<font color="Green">完了</font>にして、  
 クリップの状況をメンバーが一目で分かるようにしましょう。
-* 画像
-* 画像
+
+![ステータス完了](https://user-images.githubusercontent.com/10862638/56646946-8c48a780-66bb-11e9-8104-1e210c0f6e4e.jpg)
 
 ### 5. その他
 
@@ -128,21 +187,3 @@
 グループ管理者は **グループ編集** からグループ情報の編集を行えます。  
 また、不要になったユーザー、部屋、クリップを削除することができます。  
   * 管理者ログインには、グループ登録時のメールアドレス、パスワードが必要です。
-
-## サンプルグループURL
-
-「Clip Talk」はめんどくさい設定が必要なく、  
-ITに不慣れな組織・団体様でも活用できるサービスを目指しております。
-
-以下は「Clip Talk」が活用されるシーンを想定したサンプルグループURLとなります。  
-ご参考までにお目通しください。  
-<https://cliptalk.herokuapp.com/groups/model_circle>
-<https://cliptalk.herokuapp.com/groups/model_class>
-<https://cliptalk.herokuapp.com/groups/model_business>
-
-※以下のゲスト用ユーザー、または新規にユーザーをご登録いただき、  
-ログインしてください。
-
-メールアドレス：guest@mail  
-パスワード：guest
-
